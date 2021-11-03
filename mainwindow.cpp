@@ -27,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     // put the simulation as a unique_ptr
     update_parameters(all_parameters);
 
+    ui->tab->setAutoFillBackground(true);
+    ui->tab2->setAutoFillBackground(true);
+
     ui->line_plot->addGraph(); // normal
     ui->line_plot->addGraph(); // cancer
     ui->line_plot->addGraph(); // infected
