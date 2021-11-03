@@ -1,6 +1,6 @@
 # OVR
 
-Oncolytic Virus Resistance
+Oncolytic Virus Resistance simulation
 
 ![example workflow](https://github.com/rugtres/ovr/actions/workflows/build.yml/badge.svg)
 
