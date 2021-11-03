@@ -42,3 +42,5 @@ CONFIG(release, debug|release) {
 }
 
 QMAKE_CXXFLAGS_RELEASE += -ffast-math
+
+TARGET = ovr
