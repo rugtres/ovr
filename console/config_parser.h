@@ -14,7 +14,7 @@
 #include <fstream>
 #include <utility>
 
-struct err {
+struct ERROR {
     void exitWithError(const std::string &error) {
         std::cout << error;
         std::cin.ignore();
