@@ -9,6 +9,5 @@ Branch|Code Coverage
 ---|---
 master|[![codecov.io](https://codecov.io/github/rugtres/ovr/coverage.svg?branch=master)](https://codecov.io/github/rugtres/ovr/coverage.svg?branch=master)
 
+
 ![](https://github.com/rugtres/ovr/blob/main/Screenshots/GUI_overview.png)
-
-

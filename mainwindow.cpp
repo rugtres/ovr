@@ -27,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     // put the simulation as a unique_ptr
     update_parameters(all_parameters);
 
+    ui->tab->setAutoFillBackground(true);
+    ui->tab2->setAutoFillBackground(true);
+
     ui->line_plot->addGraph(); // normal
     ui->line_plot->addGraph(); // cancer
     ui->line_plot->addGraph(); // infected
@@ -82,8 +85,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->drpdwnbox_display->addItem("Resistant Growth Rate");
     ui->drpdwnbox_display->addItem("Dominant Growth Rate");
 
-    ui->box_grid_type->addItem("regular");
     ui->box_grid_type->addItem("voronoi");
+    ui->box_grid_type->addItem("regular");
     ui->box_grid_type->addItem("hexagonal");
 
     is_paused = false;
