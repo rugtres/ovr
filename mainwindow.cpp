@@ -8,9 +8,7 @@
 #include <chrono>
 #include <iostream>
 
-#include "Simulation/parameters.hpp"
-#include "Simulation/simulation.hpp"
-#include "Simulation/rndutils.hpp"
+#include "Simulation/setup.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,9 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     std::stringstream s;
     s << "Welcome to this In Silico Simulation of oncolytic tumor virotherapy\n";
     s << "Copyright 2019 - 2021 D. Bhatt, T. Janzen & F.J. Weissing\n";
-    s << "This is version: 0.6\n";
+    s << "This is version: 0.8\n";
     // ui->text->appendPlainText(QString::fromStdString(s.str()));
 
+    using_3d = false;
     // put the simulation as a unique_ptr
     update_parameters(all_parameters);
 
@@ -370,7 +369,7 @@ void MainWindow::update_image(size_t sq_size,
       }
     }
 
-    if(grid_type == voronoi || grid_type == hexagonal) {
+    if(grid_type == grid_type::voronoi || grid_type == grid_type::hexagonal) {
         if(focal_display_type != dominant_rate) {
           display_voronoi(growth_rate[focal_cell_type], focal_cell_type, sq_size);
         } else {
@@ -489,16 +488,16 @@ void MainWindow::update_parameters(Param& p) {
 
    auto grid_string = ui->box_grid_type->currentText();
    if (grid_string == "regular") {
-       grid_type = regular;        // plotting flag
+       grid_type = grid_type::regular;        // plotting flag
        p.use_voronoi_grid = false; // simulation flag
    }
    if (grid_string == "voronoi") {
-       grid_type = voronoi;       // plotting flag
+       grid_type = grid_type::voronoi;       // plotting flag
        p.use_voronoi_grid = true; // simulation flag
    }
 
    if (grid_string == "hexagonal") {
-       grid_type = hexagonal; // plotting flag
+       grid_type = grid_type::hexagonal; // plotting flag
        p.use_voronoi_grid = true; // simulation flag
      }
 
@@ -550,11 +549,15 @@ void MainWindow::setup_simulation() {
 
     update_parameters(all_parameters);
 
-    sim = std::make_unique<simulation>(all_parameters);   //simulation(all_parameters);
+    sim = std::make_unique<simulation<node_2d>>(all_parameters);   //simulation(all_parameters);
 
     //Simulation.initialize_network();
     std::vector< std::vector< voronoi_point > > all_polys;
-    sim->initialize_network(all_polys, grid_type);
+
+    setup::initialize_network<node_2d>(all_polys,
+                                       grid_type,
+                                       *sim,
+                                       all_parameters);
 
     if(all_parameters.use_voronoi_grid == true) {
       update_polygons(all_polys);
@@ -652,8 +655,6 @@ void MainWindow::on_btn_start_clicked()
     if(!is_paused) setup_simulation(); // only setup if it is not paused
 
     is_paused = false; // now everything is setup, no need to pause.
-
-    auto start_time = std::chrono::high_resolution_clock::now();
     ui->btn_start->setText("Start");
 
     is_running = true;
@@ -689,19 +690,6 @@ void MainWindow::on_btn_start_clicked()
         }
         if(!is_running) break;
     }
-
-
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>( end_time - start_time ).count();
-
-    float time_taken = 1.f * duration / 1000; // this is a rather ugly translation of milli seconds to seconds
-
-    std::stringstream st;
-    st << "This took ";
-    st << time_taken;
-    st << " seconds\n";
-    // ui->text->appendPlainText(QString::fromStdString(st.str()));
-    std::cout << time_taken<< "\n";
     is_running = false;
 }
 
@@ -729,9 +717,6 @@ void MainWindow::update_plot(double t,
     ui->line_plot->rescaleAxes();
     ui->line_plot->replot();
 }
-
-
-
 
 void MainWindow::on_btn_stop_clicked() {
     is_running = false;
@@ -789,4 +774,21 @@ void MainWindow::on_btn_add_virus_clicked()
 
    sim->add_infected(sim->get_infection_type(),
                      sim->get_percent_infected());
+}
+
+void MainWindow::on_btn_use_3d_clicked()
+{
+  using_3d = !using_3d;
+
+  if (using_3d) {
+      ui->btn_use_3d->setText("Use 3d");
+  } else {
+      ui->btn_use_3d->setText("Use 2d");
+  }
+
+  if (using_3d) {
+      ui->label_using_3d->setText("USING 3D");
+  } else {
+      ui->label_using_3d->setText("using 2d");
+  }
 }

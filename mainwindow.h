@@ -6,20 +6,18 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-#include "Simulation/parameters.hpp"
 #include "Simulation/simulation.hpp"
-#include "Simulation/random_thijs.hpp"
+#include "Simulation/voronoi_tools.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 enum display_color {cells, inflammation_factor, added_death_rate,
                     normal_rate, normal_death_rate,
                     cancer_rate, cancer_death_rate,
                     infected_rate, resistant_rate,
                     dominant_rate};
-
-
 
 class MainWindow : public QMainWindow
 {
@@ -78,6 +76,8 @@ private slots:
 
     void on_btn_add_virus_clicked();
 
+    void on_btn_use_3d_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage image_;
@@ -86,6 +86,8 @@ private:
     int col_size;
     float factor_x;
     float factor_y;
+
+    bool using_3d;
 
     display_color focal_display_type;
 
@@ -109,4 +111,6 @@ private:
 
     std::vector< QColor > colorz;
 };
+
+
 #endif // MAINWINDOW_H

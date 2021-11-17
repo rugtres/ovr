@@ -54,6 +54,8 @@ struct Param {
   size_t sq_num_pixels;
   bool use_voronoi_grid;
 
+  bool using_3d;
+
   start_type start_setup;
 
   Param() {
@@ -96,6 +98,7 @@ struct Param {
     sq_num_pixels = 100;
 
     use_voronoi_grid = false;
+    using_3d = false;
   }
 };
 
