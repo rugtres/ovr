@@ -631,7 +631,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -876,7 +876,7 @@
           <double>100.000000000000000</double>
          </property>
          <property name="value">
-          <double>100.000000000000000</double>
+          <double>30.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -1369,7 +1369,7 @@
      <attribute name="title">
       <string>3D</string>
      </attribute>
-     <widget class="QSlider" name="horizontalSlider">
+     <widget class="QSlider" name="depth_slider">
       <property name="geometry">
        <rect>
         <x>90</x>
@@ -1427,7 +1427,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>not using 3d</string>
       </property>
      </widget>
     </widget>

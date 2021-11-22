@@ -14,6 +14,7 @@
 #include <array>
 #include <cmath>
 #include <algorithm>
+#include <memory>
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -22,27 +23,54 @@
 #include "random_thijs.hpp"
 #include "node_3d.hpp"
 #include "node_2d.hpp"
+#include "voronoi_tools.hpp"
 
 class simulation {
 public:
+  float t;
+  size_t num_cells;
+  size_t sq_size;
   virtual ~simulation() {}
   virtual void update_one_step() = 0;
+
+  virtual cell_type get_cell_type(size_t) = 0;
+  virtual std::array<size_t, 5> get_count_cell_types() const = 0;
+  virtual void initialize_network(std::vector< std::vector< voronoi_point > >& all_polys,
+                                  grid_type used_grid_type) = 0;
+
+  virtual const std::array< binned_distribution, 4 >& get_growth_prob()  = 0;
+  virtual const std::array< binned_distribution, 4 >& get_death_prob()  = 0;
+
+  virtual void set_infection_type(infection_routine) = 0;
+  virtual void set_percent_infected(float percent_infected) = 0;
+  virtual void set_start_setup(start_type new_type) = 0;
+  virtual void add_infected(infection_routine infect_type,
+                                 float fraction) = 0;
+  virtual void update_grow_params() = 0;
+  virtual infection_routine get_infection_type() const = 0;
+  virtual float get_percent_infected() const = 0;
 };
 
 
 template <typename NODE>
 class simulation_impl : public simulation {
 public:
-  float t;
   bool using_3d;
-  size_t num_cells;
-  size_t sq_size;
 
   std::vector< NODE > world;
   rnd_t rndgen;
 
   std::array< binned_distribution, 4 > growth_prob;
   std::array< binned_distribution, 4 > death_prob;
+
+  const std::array< binned_distribution, 4 >& get_growth_prob() override {
+    return growth_prob;
+  }
+
+  const std::array< binned_distribution, 4 >& get_death_prob()  override {
+      return death_prob;
+    }
+
   std::array<size_t, 5> num_cell_types;
 
   simulation_impl(const Param& param) :
@@ -77,7 +105,7 @@ public:
     world(param.sq_num_cells * param.sq_num_cells * param.sq_num_cells)
   {
     parameters = param;
-    using_3d = true;
+    using_3d = have_to_use_3d;
     rndgen.set_seed(parameters.seed);
 
     sq_size = parameters.sq_num_cells;
@@ -152,6 +180,10 @@ public:
     t += dt;
   }
 
+  cell_type get_cell_type(size_t pos) override {
+    return world[pos].get_cell_type();
+  }
+
   void update_growth_prob(size_t pos) {
     std::array<float, 4> probs = world[pos].calc_prob_of_growth();
     for (size_t i = 0; i < 4; ++i) {
@@ -181,19 +213,20 @@ public:
   }
 
 
-  void set_percent_infected(float percent_infected) {
+  void set_percent_infected(float percent_infected) override {
     parameters.percent_infected = percent_infected;
   }
 
-  void set_infection_type(infection_routine infect_routine) {
+  void set_infection_type(infection_routine infect_routine) override {
     parameters.infection_type = infect_routine;
   }
-  std::array<size_t, 5> get_count_cell_types() const {
+
+  std::array<size_t, 5> get_count_cell_types() const override {
     return num_cell_types;
   }
 
   void add_infected(infection_routine infect_type,
-                    float fraction) {
+                    float fraction) override {
     if(fraction == 1.0f &&
        infect_type == random_infection) {
         infect_all_cancer();
@@ -305,13 +338,13 @@ public:
     return parameters;
   }
 
-  infection_routine get_infection_type() const {
+  infection_routine get_infection_type() const override {
     return(parameters.infection_type);
   }
-  float get_percent_infected() const {
+  float get_percent_infected() const override {
     return(parameters.percent_infected);
   }
-  void set_start_setup(start_type new_type) {
+  void set_start_setup(start_type new_type) override {
     parameters.start_setup = new_type;
   }
 
@@ -442,7 +475,7 @@ public:
     return rates[event];
   }
 
-  void update_grow_params() {
+  void update_grow_params() override {
     parameters.time_adding_virus += parameters.time_adding_cancer;
     parameters.time_adding_virus_2 += parameters.time_adding_virus;
   }
@@ -913,6 +946,136 @@ private:
     num_cell_types[old_type]--;
     num_cell_types[new_type]++;
   }
+
+  void setup_voronoi(std::vector< std::vector< voronoi_point > >& all_polys,
+                     grid_type used_grid_type,
+                     size_t num_cells,
+                     size_t sq_size,
+                     rnd_t& rndgen) {
+
+    // std::cout << "Generating centre points\n";
+    std::vector< voronoi_point > v(num_cells);
+
+
+    // we make regular grid
+    for(size_t i = 0; i < num_cells; ++i) {
+
+        float x, y;
+
+        if (used_grid_type == grid_type::hexagonal) {
+            x = i % sq_size;
+            y = i / sq_size;
+            if ((i / sq_size) % 2 == 0) x += 0.5f;
+          } else {
+            x = rndgen.uniform() * sq_size;
+            y = rndgen.uniform() * sq_size;
+          }
+
+        v[i] = voronoi_point(x, y);
+      }
+
+    cinekine::voronoi::Sites sites;
+    // << "converting centre points to vertices\n";
+    for(auto i : v) {
+        cinekine::voronoi::Vertex temp_vertex(i.x_, i.y_);
+        sites.push_back(temp_vertex);
+      }
+
+    // std::cout << "creating voronoi graph\n";
+    cinekine::voronoi::Graph graph = cinekine::voronoi::build(std::move(sites), sq_size, sq_size);
+
+    std::vector< std::vector< voronoi_edge > > all_edges(world.size());
+
+    // std::cout << "Ready to build world\n";
+    // std::cout << "collecting all edges\n";
+    for(const auto& cell : graph.cells()) {
+
+        size_t site_index = static_cast<size_t>(cell.site);
+
+        cinekine::voronoi::Site focal_site = graph.sites()[site_index];
+
+        world[site_index].x_ = focal_site.x;
+        world[site_index].y_ = focal_site.y;
+
+        for(const auto& edge : cell.halfEdges) {
+            cinekine::voronoi::Edge focal_edge = graph.edges()[edge.edge];
+            voronoi_point start(focal_edge.p0.x, focal_edge.p0.y);
+            voronoi_point end(  focal_edge.p1.x, focal_edge.p1.y);
+
+            voronoi_edge local_edge(start, end, focal_edge.leftSite, focal_edge.rightSite);
+
+            if(local_edge.calc_dist() > 1e-2) {
+                all_edges[site_index].push_back(local_edge);
+              }
+          }
+      }
+
+    // std::cout << "implementing all edges\n";
+    for(auto i : all_edges) {
+        for(auto edge : i) {
+            size_t left  = edge.left;
+            size_t right = edge.right;
+
+            if(left < world.size() && right < world.size()) {
+                world[left].template add_neighbor<NODE>(world, right);
+                world[right].template add_neighbor<NODE>(world, left);
+              }
+          }
+      }
+
+    // std::cout << "clean edges and add polies for plotting\n";
+    for(size_t i = 0; i < num_cells; ++i) {
+        std::vector< voronoi_point > poly = voronoi_tools::clean_edges(all_edges[i], i);
+        all_polys.push_back(poly);
+      }
+  }
+
+  void initialize_network(std::vector< std::vector< voronoi_point > >& all_polys,
+                          grid_type used_grid_type) override {
+    // initialize default.
+    for(size_t i = 0; i < 4; ++i) {
+        growth_prob[i] = binned_distribution(sq_size, num_cells);
+        death_prob[i] = binned_distribution(sq_size, num_cells);
+    }
+
+    for(auto& i : world) {
+        i.prob_normal_infected = parameters.prob_normal_infection;
+      }
+
+    if(parameters.use_voronoi_grid == false) {
+        for(auto& i : world) {
+            i.update_neighbors(world, sq_size);
+            change_cell_type(i.pos, empty);
+          }
+      }
+    if(parameters.use_voronoi_grid == true) {
+
+        setup_voronoi(all_polys, used_grid_type,
+                      num_cells, sq_size, rndgen);
+        for(size_t i = 0; i < num_cells; ++i) {
+            world[i].inv_num_neighbors = 1.f / world[i].neighbors.size();
+            update_growth_prob(i);
+            update_death_prob(i);
+          }
+      }
+
+    if(parameters.start_setup == grow || parameters.start_setup == converge) {
+        add_cells(normal);
+        for(size_t i = 0; i < num_cells; ++i) {
+            update_growth_prob(i);
+            update_death_prob(i);
+          }
+      }
+
+    if(parameters.start_setup == full) {
+        initialize_full();
+    }
+
+    for(size_t i = 0; i < growth_prob.size(); ++i) {
+        growth_prob[i].update_all();
+        death_prob[i].update_all();
+    }
+  }
 };
 
 inline std::unique_ptr<simulation> create_simulation(bool use_3d,
@@ -921,7 +1084,7 @@ inline std::unique_ptr<simulation> create_simulation(bool use_3d,
     return std::unique_ptr<simulation>(new simulation_impl<node_2d>(p));
   }
   else {
-    return std::unique_ptr<simulation>(new simulation_impl<node_3d>(p));
+    return std::unique_ptr<simulation>(new simulation_impl<node_3d>(p, true));
   }
 }
 

@@ -24,9 +24,9 @@ struct rnd_t {
 
   rndutils::uniform01_distribution<float> rndutil_norm;
 
-  int random_number(size_t n)    {
+  size_t random_number(size_t n)    {
     if(n <= 1) return 0;
-    return std::uniform_int_distribution<> (0, static_cast<int>(n - 1))(rndgen_);
+    return std::uniform_int_distribution<size_t> (0, n - 1)(rndgen_);
   }
 
   void set_seed(unsigned int s) {
@@ -80,10 +80,10 @@ public:
 
   template <typename It>
   size_t draw_from_dist(It first, It last, float max_val, rnd_t& r) const {
-   auto max_index = std::distance(first, last);
+   size_t max_index = static_cast<size_t>(std::distance(first, last));
    size_t cnt = 0;
 
-   if (max_val == 0.0) {
+   if (max_val == 0.f) {
       return r.random_number(static_cast<size_t>(max_index));
    }
 
@@ -134,8 +134,8 @@ public:
 
     if (new_val - old_val > 1e6f) {
       double diff = static_cast<double>(new_val) - static_cast<double>(old_val);
-      row_sum[row] += diff;
-      total_sum += diff;
+      row_sum[row] += static_cast<float>(diff);
+      total_sum += static_cast<float>(diff);
     } else {
         float diff = new_val - old_val;
         row_sum[row] += diff;

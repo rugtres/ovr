@@ -32,8 +32,9 @@ struct node_3d : public node_base {
         int other_y = static_cast<int>(y_) + relative_points[i][1];
         int other_z = static_cast<int>(z_) + relative_points[i][2];
         if(within_limits(other_x, other_y, other_z, static_cast<int>(world_size))) {
-            int other_pos = other_y + (other_x + other_z * static_cast<int>(world_size))
-                * static_cast<int>(world_size);
+            int other_pos = other_y +
+                            (other_x + other_z * static_cast<int>(world_size))
+                            * static_cast<int>(world_size);
 
             if(other_pos >= 0 && other_pos < static_cast<int>(world.size())) {
                 node_3d* neighbor = &world[static_cast<size_t>(other_pos)];

@@ -27,29 +27,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
      ~MainWindow();
 
-    void update_image(size_t sq_size,
-                      int display_t_cells);
+    void update_image();
 
-    void update_image(size_t sq_size,
-                      const std::array< binned_distribution, 4 > & growth_rate);
+    void update_image(const std::array< binned_distribution, 4 > & growth_rate);
 
 
-    void display_voronoi(size_t sq_size,
-                         int display_t_cells); // cell coloring
+    void display_voronoi(); // cell coloring
     void display_voronoi(const binned_distribution& growth_rate,
-                         cell_type focal_cell_type,
-                         size_t sq_size); // growth rate coloring
-    void display_voronoi(const std::array< binned_distribution, 4 > & growth_rate,
-                         size_t sq_size); // dominant growth rate coloring
+                         cell_type focal_cell_type); // growth rate coloring
+    void display_voronoi(const std::array< binned_distribution, 4 > & growth_rate); // dominant growth rate coloring
 
-    void display_regular(int display_t_cells); // cell type coloring
+    void display_regular(); // cell type coloring
+    void display_regular_3d();
     void display_regular(const binned_distribution& growth_rate,
                          cell_type focal_cell_type); // growth rate coloring
     void display_regular(const std::array< binned_distribution, 4 > & growth_rate); // dominant growth rate coloring
     void display_regular_death_rate(const binned_distribution& death_rate,
-                            cell_type focal_cell_type,
-                            size_t sq_size);
-
+                            cell_type focal_cell_type);
 
     void update_parameters(Param& p);
     void print_params(const Param& p);

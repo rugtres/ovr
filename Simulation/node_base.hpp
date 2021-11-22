@@ -19,8 +19,6 @@ public:
   size_t check_identifier;
   float inv_num_neighbors;
   float prob_normal_infected;
-  float t_cell_concentration;
-  float added_death_rate;
 
   std::vector< node_base* > neighbors;
 
@@ -36,8 +34,6 @@ public:
     y_ = 0;
     inv_num_neighbors = 0.f;
     prob_normal_infected = 0.f;
-    t_cell_concentration = 0.f;
-    added_death_rate = 0.f;
     check_identifier = 0;
   }
 

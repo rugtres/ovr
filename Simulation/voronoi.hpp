@@ -278,7 +278,7 @@ namespace cinekine
     }
 
     template<class RBNode>
-    void RBTree<RBNode>::remove(RBNode* node)
+inline    void RBTree<RBNode>::remove(RBNode* node)
     {
         if (node->next())
         {
@@ -433,7 +433,7 @@ namespace cinekine
     }
 
     template<class RBNode>
-    void RBTree<RBNode>::rotateLeft(RBNode* node)
+inline    void RBTree<RBNode>::rotateLeft(RBNode* node)
     {
         RBNode* p = node;
         RBNode* q = node->right();
@@ -460,7 +460,7 @@ namespace cinekine
     }
 
     template<class RBNode>
-    void RBTree<RBNode>::rotateRight(RBNode* node)
+inline    void RBTree<RBNode>::rotateRight(RBNode* node)
     {
         RBNode* p = node;
         RBNode* q = node->left();
@@ -487,7 +487,7 @@ namespace cinekine
     }
 
     template<class RBNode>
-    RBNode* RBTree<RBNode>::getFirst(RBNode* node)
+inline    RBNode* RBTree<RBNode>::getFirst(RBNode* node)
     {
         while (node->left())
             node = node->left();
@@ -495,7 +495,7 @@ namespace cinekine
     }
 
     template<class RBNode>
-    RBNode* RBTree<RBNode>::getLast(RBNode* node)
+inline    RBNode* RBTree<RBNode>::getLast(RBNode* node)
     {
         while (node->right())
             node = node->right();
@@ -516,12 +516,12 @@ namespace cinekine
     class Vertex
     {
     public:
-        Vertex() = default;
-        Vertex(float _x, float _y): x(_x), y(_y) {}
+inline        Vertex() = default;
+inline        Vertex(float _x, float _y): x(_x), y(_y) {}
         static const Vertex undefined;
-        operator bool() const {
-            return !std::isnan(x) && !std::isnan(y);
-        }
+inline        operator bool() const {
+                return !std::isnan(x) && !std::isnan(y);
+              }
         float x, y;
     };
 
@@ -544,7 +544,7 @@ namespace cinekine
     {
         int cell;
 
-        Site(const Vertex& v) : Vertex(v.x, v.y), cell(-1) {}
+inline        Site(const Vertex& v) : Vertex(v.x, v.y), cell(-1) {}
         Site(): cell(-1) {}
     };
 
@@ -801,7 +801,7 @@ namespace cinekine
 
     //  Builds a graph given a collection of sites and a bounding box
     //
-    Graph build(Sites&& sites, float xBound, float yBound);
+ inline   Graph build(Sites&& sites, float xBound, float yBound);
 
     }   // namespace voronoi
 }   // namespace cinekine
@@ -814,11 +814,11 @@ namespace cinekine
 
     const float kEpsilon = 1e-4;
 
-    const Vertex Vertex::undefined =
+ inline   const Vertex Vertex::undefined =
                     Vertex(std::numeric_limits<float>::quiet_NaN(),
                            std::numeric_limits<float>::quiet_NaN());
 
-    Fortune::Fortune(Graph& graph) :
+inline    Fortune::Fortune(Graph& graph) :
         _graph(graph),
         _sites(graph._sites),
         _edges(graph._edges),
@@ -830,14 +830,14 @@ namespace cinekine
     {
     }
 
-    Fortune::~Fortune()
+inline    Fortune::~Fortune()
     {
         printf("Arcs Remaining: %d\n", _arcCnt);
         printf("Circles Remaining: %d\n", _circleCnt);
         printf("Edges alloced: %lu\n", _edges.size());
     }
 
-    float Fortune::leftBreakPoint(BeachArc* arc, float directrix)
+inline    float Fortune::leftBreakPoint(BeachArc* arc, float directrix)
     {
         const Site& site = _sites[arc->site];
         float rfocx = site.x, rfocy = site.y;
@@ -871,7 +871,7 @@ namespace cinekine
         return (rfocx+lfocx)/2;
     }
 
-    float Fortune::rightBreakPoint(BeachArc* arc, float directrix)
+inline    float Fortune::rightBreakPoint(BeachArc* arc, float directrix)
     {
         BeachArc* rightArc = arc->next();
         if (rightArc)
@@ -883,7 +883,7 @@ namespace cinekine
                std::numeric_limits<float>::infinity();
     }
 
-    void Fortune::attachCircleEvent(BeachArc* arc)
+inline    void Fortune::attachCircleEvent(BeachArc* arc)
     {
         BeachArc* leftArc = arc->previous();
         BeachArc* rightArc = arc->next();
@@ -974,7 +974,7 @@ namespace cinekine
         }
     }
 
-    void Fortune::detachCircleEvent(BeachArc* arc)
+inline    void Fortune::detachCircleEvent(BeachArc* arc)
     {
         CircleEvent* circleEvent = arc->circleEvent;
         if (circleEvent)
@@ -992,7 +992,7 @@ namespace cinekine
         }
     }
 
-    void Fortune::addBeachSection(int siteIndex)
+inline    void Fortune::addBeachSection(int siteIndex)
     {
         const Site& site = _sites[siteIndex];
         float x = site.x, directrix = site.y;
@@ -1154,7 +1154,7 @@ namespace cinekine
         }
     }
 
-    void Fortune::removeBeachSection(BeachArc* arc)
+ inline  void Fortune::removeBeachSection(BeachArc* arc)
     {
         CircleEvent* circle = arc->circleEvent;
         float x = circle->x, y = circle->yCenter;
@@ -1256,7 +1256,7 @@ namespace cinekine
         attachCircleEvent(rightArc);
     }
 
-    void Fortune::detachBeachSection(BeachArc* arc)
+ inline   void Fortune::detachBeachSection(BeachArc* arc)
     {
         detachCircleEvent(arc);
         _beachline.remove(arc);
@@ -1264,7 +1264,7 @@ namespace cinekine
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    Graph::Graph() :
+ inline   Graph::Graph() :
         _sites(),
         _edges(),
         _cells(),
@@ -1272,7 +1272,7 @@ namespace cinekine
     {
     }
 
-    Graph::Graph(float xBound, float yBound, Sites&& sites) :
+ inline   Graph::Graph(float xBound, float yBound, Sites&& sites) :
         _sites(std::move(sites)),
         _edges(),
         _cells(),
@@ -1281,7 +1281,7 @@ namespace cinekine
 
     }
 
-    Graph::Graph(Graph&& other) :
+  inline  Graph::Graph(Graph&& other) :
         _sites(std::move(other._sites)),
         _edges(std::move(other._edges)),
         _cells(std::move(other._cells)),
@@ -1291,7 +1291,7 @@ namespace cinekine
         other._yBound = 0.0f;
     }
 
-    Graph& Graph::operator=(Graph&& other)
+inline    Graph& Graph::operator=(Graph&& other)
     {
         _sites = std::move(other._sites);
         _edges = std::move(other._edges);
@@ -1303,7 +1303,7 @@ namespace cinekine
         return *this;
     }
 
-    int Graph::createEdge(int left, int right,
+inline    int Graph::createEdge(int left, int right,
                           const Vertex& va,
                           const Vertex& vb)
     {
@@ -1330,7 +1330,7 @@ namespace cinekine
 
     //  creates an edge that lies on the border of the owning graph
     //
-    int Graph::createBorderEdge(int site, const Vertex& va, const Vertex& vb)
+inline    int Graph::createBorderEdge(int site, const Vertex& va, const Vertex& vb)
     {
         _edges.emplace_back(site, -1);
         int edgeIdx = (int)(_edges.size()-1);
@@ -1341,7 +1341,7 @@ namespace cinekine
         return edgeIdx;
     }
 
-    HalfEdge Graph::createHalfEdge(int edge, int lSite, int rSite)
+ inline   HalfEdge Graph::createHalfEdge(int edge, int lSite, int rSite)
     {
         HalfEdge halfedge;
         halfedge.edge = edge;
@@ -1372,7 +1372,7 @@ namespace cinekine
         return halfedge;
     }
 
-    bool Graph::connectEdge(int edgeIdx)
+inline    bool Graph::connectEdge(int edgeIdx)
     {
         const float xBound = _xBound;
         const float yBound = _yBound;
@@ -1515,7 +1515,7 @@ namespace cinekine
     //   http://www.skytopia.com/project/articles/compsci/clipping.html
     // Thanks!
     // A bit modified to minimize code paths
-    bool Graph::clipEdge(int edgeIdx)
+inline    bool Graph::clipEdge(int edgeIdx)
     {
         const float xBound = _xBound;
         const float yBound = _yBound;
@@ -1637,7 +1637,7 @@ namespace cinekine
      * @param xBound X bounds
      * @param yBound Y bounds
      */
-    void Graph::clipEdges()
+inline    void Graph::clipEdges()
     {
         int numEdges = (int)_edges.size();
 
@@ -1670,13 +1670,13 @@ namespace cinekine
         }
     }
 
-    Vertex Graph::getHalfEdgeStartpoint(const HalfEdge& halfEdge)
+inline    Vertex Graph::getHalfEdgeStartpoint(const HalfEdge& halfEdge)
     {
         const Edge& edge = _edges[halfEdge.edge];
         return edge.leftSite == halfEdge.site ? edge.p0 : edge.p1;
     }
 
-    Vertex Graph::getHalfEdgeEndpoint(const HalfEdge& halfEdge)
+inline    Vertex Graph::getHalfEdgeEndpoint(const HalfEdge& halfEdge)
     {
         const Edge& edge = _edges[halfEdge.edge];
         return edge.leftSite == halfEdge.site ? edge.p1 : edge.p0;
@@ -1684,7 +1684,7 @@ namespace cinekine
 
     // Initialize half edges following build
     //
-    bool Graph::prepareHalfEdgesForCell(int32_t cell)
+ inline   bool Graph::prepareHalfEdgesForCell(int32_t cell)
     {
         if (static_cast<size_t>(cell) >= _cells.size())
             return false;
@@ -1717,7 +1717,7 @@ namespace cinekine
     // The cells are bound by the supplied bounding box.
     // Each cell refers to its associated site, and a list
     // of halfedges ordered counterclockwise.
-    void Graph::closeCells()
+inline    void Graph::closeCells()
     {
         const float xl = 0.0f,
                     xr = _xBound,
@@ -1874,7 +1874,7 @@ namespace cinekine
     ///////////////////////////////////////////////////////////////////////////
     //  a method for constructing a voronoi graph
     //
-    Graph build(Sites&& sites, float xBound, float yBound)
+ inline   Graph build(Sites&& sites, float xBound, float yBound)
     {
         Graph graph(xBound, yBound, std::move(sites));
 

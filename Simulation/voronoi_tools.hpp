@@ -13,6 +13,7 @@
 #include <memory>
 #include <cmath>
 #include <iostream>
+#include "voronoi.hpp"
 
 struct voronoi_point {
     double x_, y_;
