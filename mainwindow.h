@@ -48,8 +48,6 @@ public:
                                     bool using_3d);
 
     void update_parameters(Param& p);
-    void print_params(const Param& p);
-
     void set_resolution(int width, int height);
     void set_pixel(int x, int y, const QColor& col);
     void update_polygons(const std::vector< std::vector< voronoi_point > >& all_edges);

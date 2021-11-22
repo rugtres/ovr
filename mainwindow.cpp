@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     s << "Welcome to this In Silico Simulation of oncolytic tumor virotherapy\n";
     s << "Copyright 2019 - 2021 D. Bhatt, T. Janzen & F.J. Weissing\n";
     s << "This is version: 0.8\n";
-    // ui->text->appendPlainText(QString::fromStdString(s.str()));
 
     using_3d = false;
     // put the simulation as a unique_ptr
@@ -438,36 +437,6 @@ std::string get_string(std::string s, float v) {
     return output;
 }
 
-void MainWindow::print_params(const Param& p) {
-    std::stringstream s;
-    s << get_string("Maximum Time", p.maximum_time);
-    s << get_string("Cancer time", p.time_adding_cancer);
-    s << get_string("Virus time", p.time_adding_cancer);
-    s << get_string("Initial # cancer cells", p.initial_number_cancer_cells);
-    s << get_string("Initial # of normal cells", p.initial_number_normal_cells);
-    s << get_string("Birth Rate Normal", p.birth_normal);
-    s << get_string("Death Rate Normal", p.death_normal);
-    s << get_string("Birth Rate Cancer", p.birth_cancer);
-    s << get_string("Death Rate Cancer", p.death_cancer);
-    s << get_string("Birth Rate Infected", p.birth_infected);
-    s << get_string("Death Rate Infected", p.death_infected);
-    s << get_string("Birth Rate Resistant", p.birth_cancer_resistant);
-    s << get_string("Death Rate Resistant", p.death_cancer_resistant);
-
-    s << get_string("Infection routine", p.infection_type);
-    s << get_string("Infection %", p.percent_infected);
-    s << get_string("Start type", p.start_setup);
-    s << get_string("Prob normal infection", p.prob_normal_infection);
-    s << get_string("Frequency resistant", p.freq_resistant);
-
-    s << get_string("Distance infection upon death", p.distance_infection_upon_death);
-    s << get_string("Probability infection upon death", p.prob_infection_upon_death);
-
-    // ui->text->appendPlainText(QString::fromStdString(s.str()));
-    return;
-}
-
-
 void MainWindow::update_parameters(Param& p) {
 
    p.maximum_time = static_cast<int>(ui->box_maxtime->value());
@@ -561,8 +530,6 @@ void MainWindow::update_parameters(Param& p) {
 
    set_resolution(static_cast<int>(p.sq_num_pixels),
                   static_cast<int>(p.sq_num_pixels));
-
-   print_params(p);
    return;
 }
 
@@ -677,7 +644,6 @@ void MainWindow::obtain_equilibrium() {
                std::stringstream st;
                st << sim->t << "\t" << sum_first_half * 0.2f
                             << "\t"      << sum_second_half * 0.2f << "\n";
-               // ui->text->appendPlainText(QString::fromStdString(st.str()));
 
                if(sum_first_half >= sum_second_half && density_normal > 0.4f) {
                    break;
