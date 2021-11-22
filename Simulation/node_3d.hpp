@@ -50,8 +50,8 @@ struct node_3d : public node_base {
   }
 
   void set_coordinates(size_t row_size) {
-    z_ = 1.f * pos / (row_size * row_size);
-    size_t pos2 = pos - static_cast<size_t>(z_ * row_size * row_size);
+    z_ = static_cast<float>(pos) / (row_size * row_size);
+    size_t pos2 = pos - static_cast<size_t>(z_) * row_size * row_size;
     x_ = pos2 / row_size;
     y_ = pos2 % row_size;
   }
@@ -59,4 +59,4 @@ struct node_3d : public node_base {
 
 
 
-#endif // NODE_2D_HPP
+#endif // NODE_3D_HPP

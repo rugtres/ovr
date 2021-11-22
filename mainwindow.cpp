@@ -83,8 +83,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->drpdwnbox_display->addItem("Resistant Growth Rate");
     ui->drpdwnbox_display->addItem("Dominant Growth Rate");
 
-    ui->box_grid_type->addItem("regular");
     ui->box_grid_type->addItem("voronoi");
+    ui->box_grid_type->addItem("regular");
     ui->box_grid_type->addItem("hexagonal");
 
     is_paused = false;
@@ -131,35 +131,35 @@ QColor get_t_cell_color(float concentration) {
   return col;
 }
 
-void MainWindow::display_regular() {
-  size_t line_size = static_cast<size_t>(row_size);
-  size_t num_lines = static_cast<size_t>(col_size);
+void MainWindow::display_regular(bool using_3d) {
+  if (!using_3d) {
+    size_t line_size = static_cast<size_t>(row_size);
+    size_t num_lines = static_cast<size_t>(col_size);
 
-  for(size_t i = 0; i < num_lines; ++i) {
-      QRgb* row = (QRgb*) image_.scanLine(i);
+    for(size_t i = 0; i < num_lines; ++i) {
+        QRgb* row = (QRgb*) image_.scanLine(i);
 
-      size_t start = i * line_size;
-      size_t end = start + line_size;
+        size_t start = i * line_size;
+        size_t end = start + line_size;
 
-      for(size_t index = start; index < end; ++index) {
-          size_t local_index = index - start;
-          row[local_index] = colorz[ sim->get_cell_type(index) ].rgb();
+        for(size_t index = start; index < end; ++index) {
+            size_t local_index = index - start;
+            row[local_index] = colorz[ sim->get_cell_type(index) ].rgb();
+        }
+    }
+  } else {
+      double frac = ui->depth_slider->value() / 100.0;
+      int z = static_cast<int>(frac * row_size);
+
+      for(size_t x = 0; x < row_size; ++x) {
+          QRgb* row = (QRgb*) image_.scanLine(x);
+          for(int y = 0; y < row_size; ++y) {
+            int index = y + row_size * (x + z * row_size);
+            //  assert(sim->world[index].z_ == z);
+            row[y] = colorz[ sim->get_cell_type(index) ].rgb();
+          }
       }
   }
-}
-
-void MainWindow::display_regular_3d() {
-  double frac = ui->depth_slider->value() / 100.0;
-  int z = static_cast<int>(frac * row_size);
-
-  for(size_t x = 0; x < row_size; ++x) {
-      QRgb* row = (QRgb*) image_.scanLine(x);
-      for(int y = 0; y < row_size; ++y) {
-        int index = y + row_size * (x + z * row_size);
-        //  assert(sim->world[index].z_ == z);
-        row[y] = colorz[ sim->get_cell_type(index) ].rgb();
-      }
-    }
 }
 
 void MainWindow::display_voronoi() {
@@ -180,22 +180,17 @@ void MainWindow::display_voronoi() {
 
 void MainWindow::update_image() {
 
-    if (using_3d) {
-      display_regular_3d();
-    } else {
+  if(grid_type == regular) {
+      display_regular(using_3d);
+  } else {
+      display_voronoi();
+  }
 
-      if(grid_type == regular) {
-          display_regular();
-      } else {
-          display_voronoi();
-      }
-    }
+  int w = ui->q_label->width();
+  int h = ui->q_label->height();
 
-    int w = ui->q_label->width();
-    int h = ui->q_label->height();
-
-    ui->q_label->setPixmap((QPixmap::fromImage(image_)).scaled(w,h, Qt::KeepAspectRatio));
-    ui->q_label->update();
+  ui->q_label->setPixmap((QPixmap::fromImage(image_)).scaled(w,h, Qt::KeepAspectRatio));
+  ui->q_label->update();
 }
 
 
@@ -242,45 +237,92 @@ size_t which_max(const std::vector<float>& v) {
 
 
 void MainWindow::display_regular(const binned_distribution& growth_rate,
-                                 cell_type focal_cell_type) {
-  size_t line_size = static_cast<size_t>(row_size);
-  size_t num_lines = static_cast<size_t>(col_size);
+                                 cell_type focal_cell_type,
+                                 bool using_3d) {
+  if (!using_3d) {
+    size_t line_size = static_cast<size_t>(row_size);
+    size_t num_lines = static_cast<size_t>(col_size);
 
-  for(size_t i = 0; i < num_lines; ++i) {
-      QRgb* row = (QRgb*) image_.scanLine(i);
+    for(size_t i = 0; i < num_lines; ++i) {
+        QRgb* row = (QRgb*) image_.scanLine(i);
 
-      size_t start = i * line_size;
-      size_t end = start + line_size;
+        size_t start = i * line_size;
+        size_t end = start + line_size;
 
-      for(size_t index = start; index < end; ++index) {
-          size_t local_index = index - start;
+        for(size_t index = start; index < end; ++index) {
+            size_t local_index = index - start;
 
-          row[local_index] = get_color(focal_cell_type, growth_rate.get_value(index));
+            row[local_index] = get_color(focal_cell_type, growth_rate.get_value(index));
+        }
+    }
+  } else {
+      double frac = ui->depth_slider->value() / 100.0;
+      int z = static_cast<int>(frac * row_size);
+
+      size_t line_size = static_cast<size_t>(row_size);
+      size_t num_lines = static_cast<size_t>(col_size);
+
+      for(size_t x = 0; x < num_lines; ++x) {
+          QRgb* row = (QRgb*) image_.scanLine(x);
+
+          for(int y = 0; y < row_size; ++y) {
+            int index = y + row_size * (x + z * row_size);
+            //  assert(sim->world[index].z_ == z);
+            row[y] = get_color(focal_cell_type, growth_rate.get_value(index));
+          }
       }
   }
 }
 
-void MainWindow::display_regular(const std::array< binned_distribution, 4 > & growth_rate) {
-  size_t line_size = static_cast<size_t>(row_size);
-  size_t num_lines = static_cast<size_t>(col_size);
+void MainWindow::display_regular(const std::array< binned_distribution, 4 > & growth_rate,
+                                 bool using_3d) {
 
-  for(size_t i = 0; i < num_lines; ++i) {
-      QRgb* row = (QRgb*) image_.scanLine(i);
+  if (!using_3d) {
 
-      size_t start = i * line_size;
-      size_t end = start + line_size;
+    size_t line_size = static_cast<size_t>(row_size);
+    size_t num_lines = static_cast<size_t>(col_size);
 
-      for(size_t index = start; index < end; ++index) {
-          size_t local_index = index - start;
+    for(size_t i = 0; i < num_lines; ++i) {
+        QRgb* row = (QRgb*) image_.scanLine(i);
 
-          std::vector<float> probs = {0.0, 0.0, 0.0, 0.0};
-          for(size_t i = 0; i < 4; ++i) {
-              probs[i] = growth_rate[i].get_value(index);
+        size_t start = i * line_size;
+        size_t end = start + line_size;
+
+        for(size_t index = start; index < end; ++index) {
+            size_t local_index = index - start;
+
+            std::vector<float> probs = {0.0, 0.0, 0.0, 0.0};
+            for(size_t i = 0; i < 4; ++i) {
+                probs[i] = growth_rate[i].get_value(index);
+            }
+            cell_type focal_cell_type = static_cast<cell_type>(which_max(probs));
+
+            row[local_index] = get_color(focal_cell_type,
+                                         growth_rate[ focal_cell_type ].get_value(index));
+        }
+    }
+  } else {
+      double frac = ui->depth_slider->value() / 100.0;
+      int z = static_cast<int>(frac * row_size);
+
+      size_t line_size = static_cast<size_t>(row_size);
+      size_t num_lines = static_cast<size_t>(col_size);
+
+      for(size_t x = 0; x < num_lines; ++x) {
+          QRgb* row = (QRgb*) image_.scanLine(x);
+
+          for(int y = 0; y < row_size; ++y) {
+            int index = y + row_size * (x + z * row_size);
+            //  assert(sim->world[index].z_ == z);
+
+            std::vector<float> probs = {0.0, 0.0, 0.0, 0.0};
+            for(size_t i = 0; i < 4; ++i) {
+                probs[i] = growth_rate[i].get_value(index);
+            }
+            cell_type focal_cell_type = static_cast<cell_type>(which_max(probs));
+
+            row[y] = get_color(focal_cell_type, growth_rate[focal_cell_type].get_value(index));
           }
-          cell_type focal_cell_type = static_cast<cell_type>(which_max(probs));
-
-          row[local_index] = get_color(focal_cell_type,
-                                       growth_rate[ focal_cell_type ].get_value(index));
       }
   }
 }
@@ -326,31 +368,35 @@ void MainWindow::display_voronoi(const std::array< binned_distribution, 4 > & gr
 }
 
 void MainWindow::display_regular_death_rate(const binned_distribution& death_rate,
-                                    cell_type focal_cell_type) {
-  size_t line_size = static_cast<size_t>(row_size);
-  size_t num_lines = static_cast<size_t>(col_size);
+                                            cell_type focal_cell_type,
+                                            bool using_3d) {
 
-  for(size_t i = 0; i < num_lines; ++i) {
-      QRgb* row = (QRgb*) image_.scanLine(i);
+  if (!using_3d) {
+      size_t line_size = static_cast<size_t>(row_size);
+      size_t num_lines = static_cast<size_t>(col_size);
 
-      size_t start = i * line_size;
-      size_t end = start + line_size;
+      for(size_t i = 0; i < num_lines; ++i) {
+          QRgb* row = (QRgb*) image_.scanLine(i);
 
-      for(size_t index = start; index < end; ++index) {
-          size_t local_index = index - start;
+          size_t start = i * line_size;
+          size_t end = start + line_size;
 
-          if(focal_cell_type != cancer) {
-              row[local_index] = get_color(focal_cell_type,
-                                       death_rate.get_value(index));
-          } else {
-              float rate =  death_rate.get_value(index);
-              row[local_index] = get_color(focal_cell_type, rate);
+          for(size_t index = start; index < end; ++index) {
+              size_t local_index = index - start;
+
+              if(focal_cell_type != cancer) {
+                  row[local_index] = get_color(focal_cell_type,
+                                               death_rate.get_value(index));
+              } else {
+                  float rate =  death_rate.get_value(index);
+                  row[local_index] = get_color(focal_cell_type, rate);
+              }
           }
       }
+  } else {
+
   }
 }
-
-
 
 void MainWindow::update_image(const std::array< binned_distribution, 4 >& growth_rate) {
 
@@ -362,13 +408,13 @@ void MainWindow::update_image(const std::array< binned_distribution, 4 >& growth
 
     if(grid_type == regular) {
       if(focal_display_type == dominant_rate) {
-          display_regular(growth_rate);
+          display_regular(growth_rate, using_3d);
       } else if (focal_display_type == cancer_death_rate) {
-          display_regular_death_rate(growth_rate[cancer], cancer);
+          display_regular_death_rate(growth_rate[cancer], cancer, using_3d);
       } else if (focal_display_type == normal_death_rate) {
-          display_regular_death_rate(growth_rate[normal], normal);
+          display_regular_death_rate(growth_rate[normal], normal, using_3d);
       } else {
-          display_regular(growth_rate[focal_cell_type], focal_cell_type);
+          display_regular(growth_rate[focal_cell_type], focal_cell_type, using_3d);
       }
     }
 
@@ -682,7 +728,13 @@ void MainWindow::on_btn_start_clicked()
         // update speed is in 1 - 100
         const static size_t range = 1 * sim->num_cells;
 
+        // speed-1 * 0.01f to normalise value in [0, 1] (original value is [1, 100]
+        // then times range, maximum speed is thus total number of cells.
         int update_step = 1 + static_cast<int>((update_speed - 1) * 0.01f * range);
+        if (update_speed > 90) {
+            // create extreme speed.
+          update_step = 1 + static_cast<int>((update_speed - 1) * 0.1f * range);
+        }
 
         if(counter % update_step == 0) {
             update_display();
@@ -780,15 +832,22 @@ void MainWindow::on_btn_use_3d_clicked()
   using_3d = !using_3d;
 
   if (using_3d) {
-      ui->btn_use_3d->setText("Use 3d");
-  } else {
-      ui->btn_use_3d->setText("Use 2d");
-  }
-
-  if (using_3d) {
+      ui->btn_use_3d->setText("Switch to 2D");
       ui->label_using_3d->setText("USING 3D");
+
+      if (grid_type != grid_type::regular) {
+          QMessageBox::warning(this,
+                               tr("Oncolytic Virus Simulator"),
+                               tr("Using 3-Dimensions only works\n"
+                                  "with a regular grid, now setting\n"
+                                  "grid to regular!"));
+          grid_type = grid_type::regular;
+          all_parameters.use_voronoi_grid = false;
+          ui->box_grid_type->setCurrentText("regular");
+      }
   } else {
-      ui->label_using_3d->setText("using 2d");
+      ui->btn_use_3d->setText("Switch to 3D");
+      ui->label_using_3d->setText("using 2D, NOT using 3D");
   }
 
   setup_simulation();

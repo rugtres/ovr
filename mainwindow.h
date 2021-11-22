@@ -37,13 +37,15 @@ public:
                          cell_type focal_cell_type); // growth rate coloring
     void display_voronoi(const std::array< binned_distribution, 4 > & growth_rate); // dominant growth rate coloring
 
-    void display_regular(); // cell type coloring
-    void display_regular_3d();
+    void display_regular(bool using_3d); // cell type coloring
     void display_regular(const binned_distribution& growth_rate,
-                         cell_type focal_cell_type); // growth rate coloring
-    void display_regular(const std::array< binned_distribution, 4 > & growth_rate); // dominant growth rate coloring
+                         cell_type focal_cell_type,
+                         bool using_3d); // growth rate coloring
+    void display_regular(const std::array< binned_distribution, 4 > & growth_rate,
+                         bool using_3d); // dominant growth rate coloring
     void display_regular_death_rate(const binned_distribution& death_rate,
-                            cell_type focal_cell_type);
+                            cell_type focal_cell_type,
+                                    bool using_3d);
 
     void update_parameters(Param& p);
     void print_params(const Param& p);
