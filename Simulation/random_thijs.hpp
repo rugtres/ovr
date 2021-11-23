@@ -29,7 +29,7 @@ struct rnd_t {
     return std::uniform_int_distribution<size_t> (0, n - 1)(rndgen_);
   }
 
-  void set_seed(unsigned int s) {
+  void set_seed(size_t s) {
     rndgen_ = rndutils::make_random_engine(s);
   }
 

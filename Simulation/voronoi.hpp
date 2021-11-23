@@ -55,6 +55,7 @@ for (auto& cell: cells) for (auto& halfedge : cell.halfEdges) auto& edge = edges
 #include <vector>
 #include <cmath>
 #include <cstdint>
+#include <algorithm>
 
 namespace cinekine
 {
@@ -775,7 +776,7 @@ inline        Site(const Vertex& v) : Vertex(v.x, v.y), cell(-1) {}
             }
             else
             {
-                printf("Releasing after 0 refcnt\n");
+       //         printf("Releasing after 0 refcnt\n");
             }
         }
 
@@ -812,7 +813,7 @@ namespace cinekine
     namespace voronoi
     {
 
-    const float kEpsilon = 1e-4;
+    const float kEpsilon = 1e-4f;
 
  inline   const Vertex Vertex::undefined =
                     Vertex(std::numeric_limits<float>::quiet_NaN(),
@@ -832,9 +833,9 @@ inline    Fortune::Fortune(Graph& graph) :
 
 inline    Fortune::~Fortune()
     {
-        printf("Arcs Remaining: %d\n", _arcCnt);
-        printf("Circles Remaining: %d\n", _circleCnt);
-        printf("Edges alloced: %lu\n", _edges.size());
+     //   printf("Arcs Remaining: %d\n", _arcCnt);
+     //   printf("Circles Remaining: %d\n", _circleCnt);
+     //   printf("Edges alloced: %lu\n", _edges.size());
     }
 
 inline    float Fortune::leftBreakPoint(BeachArc* arc, float directrix)

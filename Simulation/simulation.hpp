@@ -616,10 +616,10 @@ private:
   }
 
   void infect_random(float fraction) {
-    int num_cancer_cells = num_cell_types[cancer];
+    size_t num_cancer_cells = num_cell_types[cancer];
 
-    int infected_cells = 0;
-    int to_be_infected = static_cast<int>(fraction * num_cancer_cells);
+    size_t infected_cells = 0;
+    size_t to_be_infected = static_cast<size_t>(fraction * num_cancer_cells);
     if(to_be_infected == 0) return;
 
     std::vector< size_t > cancer_pos(num_cancer_cells);
@@ -652,7 +652,7 @@ private:
 
   void infect_center(float fraction) {
     // infect_center_largest();
-    int num_cancer_cells = num_cell_types[cancer];
+    size_t num_cancer_cells = num_cell_types[cancer];
 
     size_t to_be_infected = static_cast<size_t>(fraction * num_cancer_cells);
     if(to_be_infected == 0) return;
@@ -906,7 +906,7 @@ private:
   }
 
   void infect_long_distance(size_t pos) {
-    int identifier = rndgen.random_number(1e10);
+    size_t identifier = rndgen.random_number(1e10);
     // identifier is used as a unique ID.
     ask_infect_neighbours(parameters.distance_infection_upon_death,
                           pos, identifier);

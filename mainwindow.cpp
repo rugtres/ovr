@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     s << "This is version: 0.8\n";
 
     using_3d = false;
+    basic_setup_done = false;
     // put the simulation as a unique_ptr
     update_parameters(all_parameters);
 
@@ -148,7 +149,7 @@ void MainWindow::display_regular(bool using_3d) {
     }
   } else {
       double frac = ui->depth_slider->value() / 100.0;
-      int z = static_cast<int>(frac * row_size);
+      size_t z = static_cast<size_t>(frac * row_size);
 
       for(size_t x = 0; x < row_size; ++x) {
           QRgb* row = (QRgb*) image_.scanLine(x);
@@ -256,16 +257,15 @@ void MainWindow::display_regular(const binned_distribution& growth_rate,
     }
   } else {
       double frac = ui->depth_slider->value() / 100.0;
-      int z = static_cast<int>(frac * row_size);
+      size_t z = static_cast<size_t>(frac * row_size);
 
-      size_t line_size = static_cast<size_t>(row_size);
       size_t num_lines = static_cast<size_t>(col_size);
 
       for(size_t x = 0; x < num_lines; ++x) {
           QRgb* row = (QRgb*) image_.scanLine(x);
 
-          for(int y = 0; y < row_size; ++y) {
-            int index = y + row_size * (x + z * row_size);
+          for(size_t y = 0; y < row_size; ++y) {
+            size_t index = y + row_size * (x + z * row_size);
             //  assert(sim->world[index].z_ == z);
             row[y] = get_color(focal_cell_type, growth_rate.get_value(index));
           }
@@ -302,16 +302,15 @@ void MainWindow::display_regular(const std::array< binned_distribution, 4 > & gr
     }
   } else {
       double frac = ui->depth_slider->value() / 100.0;
-      int z = static_cast<int>(frac * row_size);
+      size_t z = static_cast<size_t>(frac * row_size);
 
-      size_t line_size = static_cast<size_t>(row_size);
       size_t num_lines = static_cast<size_t>(col_size);
 
       for(size_t x = 0; x < num_lines; ++x) {
           QRgb* row = (QRgb*) image_.scanLine(x);
 
-          for(int y = 0; y < row_size; ++y) {
-            int index = y + row_size * (x + z * row_size);
+          for(size_t y = 0; y < row_size; ++y) {
+            size_t index = y + row_size * (x + z * row_size);
             //  assert(sim->world[index].z_ == z);
 
             std::vector<float> probs = {0.0, 0.0, 0.0, 0.0};
@@ -590,6 +589,7 @@ void MainWindow::setup_simulation() {
     update_display();
 
     is_paused = true;
+    basic_setup_done = true;
 }
 
 void MainWindow::update_display() {
@@ -617,7 +617,7 @@ void MainWindow::obtain_equilibrium() {
   float prev_t = sim->t;
   std::array<size_t, 5> cell_counts = sim->get_count_cell_types();
   int count = 0;
-  const int total_num_cells = sim->num_cells;
+  const size_t total_num_cells = sim->num_cells;
 
   const static size_t range = 1 * sim->num_cells;
 
@@ -701,6 +701,9 @@ void MainWindow::on_btn_start_clicked()
             // create extreme speed.
           update_step = 1 + static_cast<int>((update_speed - 1) * 0.1f * range);
         }
+        if (update_speed < 5) {
+            update_step = update_speed;
+        }
 
         if(counter % update_step == 0) {
             update_display();
@@ -741,11 +744,11 @@ void MainWindow::on_btn_stop_clicked() {
     ui->btn_start->setText("Resume");
 }
 
-void MainWindow::on_speed_slider_actionTriggered(int action) {
+void MainWindow::on_speed_slider_actionTriggered(int) {
    update_speed = ui->speed_slider->value();
 }
 
-void MainWindow::on_drpdwnbox_display_activated(int index)
+void MainWindow::on_drpdwnbox_display_activated(int)
 {
     auto display_string = ui->drpdwnbox_display->currentText();
     if(display_string == "Cell types")
@@ -807,15 +810,15 @@ void MainWindow::on_btn_use_3d_clicked()
                                tr("Using 3-Dimensions only works\n"
                                   "with a regular grid, now setting\n"
                                   "grid to regular!"));
-          grid_type = grid_type::regular;
-          all_parameters.use_voronoi_grid = false;
-          ui->box_grid_type->setCurrentText("regular");
       }
+      grid_type = grid_type::regular;
+      all_parameters.use_voronoi_grid = false;
+      ui->box_grid_type->setCurrentText("regular");
   } else {
       ui->btn_use_3d->setText("Switch to 3D");
       ui->label_using_3d->setText("using 2D, NOT using 3D");
   }
 
+  ui->progressBar->setValue(0);
   setup_simulation();
-
 }

@@ -76,12 +76,13 @@ private:
     Ui::MainWindow *ui;
     QImage image_;
 
-    int row_size;
-    int col_size;
+    size_t row_size;
+    size_t col_size;
     float factor_x;
     float factor_y;
 
     bool using_3d;
+    bool basic_setup_done;
 
     display_color focal_display_type;
 
