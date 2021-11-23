@@ -1,5 +1,5 @@
 CFLAGS = -std=c++17 -O3 -Wall 
-OBJS = main.o simulation.o setup.o node.o analysis.o
+OBJS = main.o simulation.o setup.o analysis.o
 
 all: ${OBJS}
 	g++ ${CFLAGS} ${OBJS} -o onco_model
@@ -15,9 +15,6 @@ main.o: ./console/main.cpp
 
 simulation.o: ./Simulation/simulation.cpp 
 	g++ ${CFLAGS} -c ./Simulation/simulation.cpp 
-  
-node.o: ./Simulation/node.cpp
-	g++ ${CFLAGS} -c ./Simulation/node.cpp
 
 clean:
 	rm -f onco_model ${OBJS}
