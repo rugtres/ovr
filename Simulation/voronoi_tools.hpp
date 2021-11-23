@@ -1,23 +1,19 @@
+#ifndef VORONOI_TOOLS_HPP
+#define VORONOI_TOOLS_HPP
 //
-//  node.hpp
+//  voronoi_tools.hpp
 //  Cancer_v1
 //
 //  Created by Thijs Janzen on 13/11/2019.
 //  Copyright © 2019 Thijs Janzen. All rights reserved.
 //
 
-#ifndef node_hpp
-#define node_hpp
-
 #include <cstdio>
 #include <vector>
 #include <memory>
 #include <cmath>
 #include <iostream>
-
-enum cell_type {normal, cancer, infected, resistant, empty, max_num};
-
-typedef struct node node;
+#include "voronoi.hpp"
 
 struct voronoi_point {
     double x_, y_;
@@ -129,69 +125,66 @@ struct voronoi_edge {
     }
 };
 
-std::vector< voronoi_point> clean_edges(const std::vector< voronoi_edge >& input_edges,
-                                        size_t pos);
-void invert_edges(std::vector< voronoi_edge>& edges, size_t pos);
+namespace voronoi_tools {
 
-struct node {
-private:
-    cell_type node_type;
-
-public:
-
-  node(node&&) = delete;
-  const node& operator=(node&&) = delete;
-  node(const node&) = delete;
-  const node& operator=(const node&) = delete;
-
-  node();
-
-  size_t pos;
-  float x_;
-  float y_;
-  size_t check_identifier;
-
-  float inv_num_neighbors;
-  float prob_normal_infected;
-  float t_cell_concentration;
-  float added_death_rate;
-
-  std::vector< node* > neighbors;
-
-  void check_distances(float max_val);
-  float calc_distance(const node& other);
-
-  void set_coordinates(size_t row_size);
-  void update_neighbors(std::vector< node >& world,
-                        size_t world_size);
-
-  std::vector< cell_type > return_neighbor_types();
-
-  void add_neighbor(std::vector< node >& world,
-                    size_t other_pos);
-
-  std::array<float, 4> calc_prob_of_growth() const;
-  float freq_type_neighbours(const cell_type& ref_type) const;
-
-  void die();
-
-  std::vector< size_t > get_cancer_neighbours() const;
-
-  cell_type get_cell_type() const {
-    return node_type;
+  inline std::vector< double > calc_dist(const std::vector< voronoi_edge >& v,
+                                  const voronoi_edge& point) {
+    std::vector< double > output(v.size());
+    for(size_t i = 0; i < v.size(); ++i) {
+      double dx = point.end.x_ - v[i].start.x_;
+      double dy = point.end.y_ - v[i].start.y_;
+      output[i] = dx * dx + dy * dy;
+    }
+    return output;
   }
 
-  void set_cell_type(cell_type new_type) {
-    node_type = new_type;
+  inline void invert_edges(std::vector< voronoi_edge>& edges, size_t pos) {
+      // check for inverted edges.
+      for(auto& i : edges) {
+          if(i.right != pos) {
+              size_t tmp = i.right;
+              i.right = i.left;
+              i.left = tmp;
+
+              auto tmp_2 = i.start;
+              i.start = i.end;
+              i.end = tmp_2;
+          }
+      }
   }
 
-  size_t get_identifier() {
-    return check_identifier;
-  }
-  void set_identifier(size_t id) {
-    check_identifier = id;
-  }
+  inline std::vector< voronoi_point> clean_edges(const std::vector< voronoi_edge >& input_edges,
+                                          size_t pos) {
+      // the goal is to connect all edges, and then provide
+      // all the outer points
+      std::vector< voronoi_edge > edges = input_edges;
+      invert_edges(edges, pos);
 
-};
+      std::vector< voronoi_edge > new_edges;
 
-#endif /* node_hpp */
+      voronoi_edge focal_edge = edges.back();
+      new_edges.push_back(focal_edge);
+
+      while(!edges.empty()) {
+         std::vector< double > distances = calc_dist(edges, focal_edge);
+         auto min_val = std::min_element(distances.begin(), distances.end());
+         auto match = std::distance(distances.begin(), min_val);
+
+         focal_edge = edges[match];
+         edges[match] = edges.back();
+         edges.pop_back();
+         new_edges.push_back(focal_edge);
+      }
+      // allright, we have connected them now
+      // now we collect the starting points
+      std::vector< voronoi_point > outer_points;
+      for(auto i : new_edges) {
+          voronoi_point temp_point = i.start;
+          outer_points.push_back(temp_point);
+      }
+      return outer_points;
+  }
+}
+
+
+#endif // VORONOI_TOOLS_HPP

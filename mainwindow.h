@@ -6,20 +6,18 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-#include "Simulation/parameters.hpp"
 #include "Simulation/simulation.hpp"
-#include "Simulation/random_thijs.hpp"
+#include "Simulation/voronoi_tools.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 enum display_color {cells, inflammation_factor, added_death_rate,
                     normal_rate, normal_death_rate,
                     cancer_rate, cancer_death_rate,
                     infected_rate, resistant_rate,
                     dominant_rate};
-
-
 
 class MainWindow : public QMainWindow
 {
@@ -29,33 +27,27 @@ public:
     MainWindow(QWidget *parent = nullptr);
      ~MainWindow();
 
-    void update_image(size_t sq_size,
-                      int display_t_cells);
+    void update_image();
 
-    void update_image(size_t sq_size,
-                      const std::array< binned_distribution, 4 > & growth_rate);
+    void update_image(const std::array< binned_distribution, 4 > & growth_rate);
 
 
-    void display_voronoi(size_t sq_size,
-                         int display_t_cells); // cell coloring
+    void display_voronoi(); // cell coloring
     void display_voronoi(const binned_distribution& growth_rate,
-                         cell_type focal_cell_type,
-                         size_t sq_size); // growth rate coloring
-    void display_voronoi(const std::array< binned_distribution, 4 > & growth_rate,
-                         size_t sq_size); // dominant growth rate coloring
-
-    void display_regular(int display_t_cells); // cell type coloring
-    void display_regular(const binned_distribution& growth_rate,
                          cell_type focal_cell_type); // growth rate coloring
-    void display_regular(const std::array< binned_distribution, 4 > & growth_rate); // dominant growth rate coloring
+    void display_voronoi(const std::array< binned_distribution, 4 > & growth_rate); // dominant growth rate coloring
+
+    void display_regular(bool using_3d); // cell type coloring
+    void display_regular(const binned_distribution& growth_rate,
+                         cell_type focal_cell_type,
+                         bool using_3d); // growth rate coloring
+    void display_regular(const std::array< binned_distribution, 4 > & growth_rate,
+                         bool using_3d); // dominant growth rate coloring
     void display_regular_death_rate(const binned_distribution& death_rate,
                             cell_type focal_cell_type,
-                            size_t sq_size);
-
+                                    bool using_3d);
 
     void update_parameters(Param& p);
-    void print_params(const Param& p);
-
     void set_resolution(int width, int height);
     void set_pixel(int x, int y, const QColor& col);
     void update_polygons(const std::vector< std::vector< voronoi_point > >& all_edges);
@@ -78,14 +70,19 @@ private slots:
 
     void on_btn_add_virus_clicked();
 
+    void on_btn_use_3d_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage image_;
 
-    int row_size;
-    int col_size;
+    size_t row_size;
+    size_t col_size;
     float factor_x;
     float factor_y;
+
+    bool using_3d;
+    bool basic_setup_done;
 
     display_color focal_display_type;
 
@@ -109,4 +106,6 @@ private:
 
     std::vector< QColor > colorz;
 };
+
+
 #endif // MAINWINDOW_H
