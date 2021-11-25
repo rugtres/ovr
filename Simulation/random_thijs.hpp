@@ -153,9 +153,14 @@ public:
         total_sum += diff;
     }
 
-    if (row_max[row] - old_val < 1e-4f) {
-         recalc_max_val(row);
+    if (new_val > row_max[row]) {
+      row_max[row] = new_val;
+    } else {
+      if (old_val - row_max[row] < 1e-6f) {
+           recalc_max_val(row);
+      }
     }
+
 
     if (total_sum < 0.f) total_sum = 0.f;
     if (total_sum > 1e9f) total_sum = 1e9f;
