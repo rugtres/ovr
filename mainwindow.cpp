@@ -721,16 +721,16 @@ void MainWindow::update_plot(double t,
     y_i.append(cell_numbers[2]);
     y_r.append(cell_numbers[3]);
 
-    ui->line_plot->graph(0)->clearData();
+  //  ui->line_plot->graph(0)->clearData();
     ui->line_plot->graph(0)->setData(x_t, y_n);
 
-    ui->line_plot->graph(1)->clearData();
+ //   ui->line_plot->graph(1)->clearData();
     ui->line_plot->graph(1)->setData(x_t, y_c);
 
-    ui->line_plot->graph(2)->clearData();
+  //  ui->line_plot->graph(2)->clearData();
     ui->line_plot->graph(2)->setData(x_t, y_i);
 
-    ui->line_plot->graph(3)->clearData();
+  //  ui->line_plot->graph(3)->clearData();
     ui->line_plot->graph(3)->setData(x_t, y_r);
 
 

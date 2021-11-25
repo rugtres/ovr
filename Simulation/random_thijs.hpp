@@ -51,6 +51,7 @@ public:
   binned_distribution(size_t num_of_bins) : num_bins(num_of_bins) {
     bin_size = num_of_bins;
     row_sum.resize(num_bins);
+    row_max.resize(num_bins);
   }
 
   binned_distribution(size_t num_of_bins, size_t num_values) {
@@ -58,6 +59,7 @@ public:
     num_bins = num_of_bins;
 
     row_sum.resize(num_bins, 0.f);
+    row_max.resize(num_bins, 0.f);
     values.resize(num_values, 0.f);
   }
 
@@ -74,6 +76,7 @@ public:
       auto start_it = values.begin() + i * bin_size;
       auto end_it = start_it + bin_size;
       row_sum[i] = std::accumulate(start_it, end_it, 0.f);
+      row_max[i] = *max_element(start_it, end_it);
     }
     total_sum = std::accumulate(row_sum.begin(), row_sum.end(), 0.f);
   }
@@ -110,8 +113,9 @@ public:
     if(frac < 0.1f) {
       col = draw_cdf(start, end, r);
     } else {
-      auto max_val = std::max_element(start, end);
-      col = draw_from_dist(start, end, *max_val, r);
+      // max val here is very costly! track realtime?
+      auto max_val = row_max[row];
+      col = draw_from_dist(start, end, max_val, r);
     }
     size_t result = row * bin_size + col;
 
@@ -124,6 +128,13 @@ public:
     draw_dist.mutate(first, last);
     return(static_cast<size_t>(draw_dist(r.rndgen_)));
   }
+
+  void recalc_max_val(size_t row) {
+    auto start = values.begin() + row * bin_size;
+    auto end = start + bin_size;
+    row_max[row] = *std::max_element(start, end);
+  }
+
 
   void update_entry(size_t pos, float new_val) {
     float old_val = values[pos];
@@ -140,8 +151,11 @@ public:
         float diff = new_val - old_val;
         row_sum[row] += diff;
         total_sum += diff;
-     }
+    }
 
+    if (row_max[row] - old_val < 1e-4f) {
+         recalc_max_val(row);
+    }
 
     if (total_sum < 0.f) total_sum = 0.f;
     if (total_sum > 1e9f) total_sum = 1e9f;
@@ -155,11 +169,13 @@ public:
     return total_sum;
   }
 
+
   void update_all() {
     for(size_t row = 0; row < num_bins; ++row) {
       auto start = values.begin() + row * bin_size;
       auto end = start + bin_size;
       row_sum[row] = std::accumulate(start, end, 0.f);
+      recalc_max_val(row);
       if(row_sum[row] < 0.f) row_sum[row] = 0.f;
     }
     total_sum = std::accumulate(row_sum.begin(), row_sum.end(), 0.f);
@@ -174,6 +190,7 @@ private:
   size_t bin_size;
   size_t num_bins;
   std::vector<float> row_sum;
+  std::vector<float> row_max;
   std::vector<float> values;
 };
 
