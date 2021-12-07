@@ -30,6 +30,7 @@ public:
   float t;
   size_t num_cells;
   size_t sq_size;
+  Param parameters;
   virtual ~simulation() {}
   virtual void update_one_step() = 0;
 
@@ -495,7 +496,7 @@ public:
   }
 
 private:
-  Param parameters;
+
 
   std::array< float, 8> rates;
 

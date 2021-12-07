@@ -14,17 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    using_3d = false;
+
+    sim = create_simulation(this->using_3d, all_parameters);
+
+    basic_setup_done = false;
+
     ui->setupUi(this);
 
-    std::stringstream s;
-    s << "Welcome to this In Silico Simulation of oncolytic tumor virotherapy\n";
-    s << "Copyright 2019 - 2021 D. Bhatt, T. Janzen & F.J. Weissing\n";
-    s << "This is version: 0.8\n";
-
-    using_3d = false;
-    basic_setup_done = false;
-    // put the simulation as a unique_ptr
-    update_parameters(all_parameters);
 
     ui->tab->setAutoFillBackground(true);
     ui->tab2->setAutoFillBackground(true);
@@ -102,6 +99,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     factor_x = 1.f;
     factor_y = 1.f;
+
+    setup_simulation();
 }
 
 
@@ -404,7 +403,7 @@ void MainWindow::update_image(const std::array< binned_distribution, 4 >& growth
     if( focal_display_type == infected_rate)  focal_cell_type = infected;
     if( focal_display_type == resistant_rate) focal_cell_type = resistant;
 
-    if(grid_type == regular) {
+    if(grid_type == grid_type::regular) {
       if(focal_display_type == dominant_rate) {
           display_regular(growth_rate, using_3d);
       } else if (focal_display_type == cancer_death_rate) {
@@ -516,7 +515,7 @@ void MainWindow::update_parameters(Param& p) {
    if (grid_string == "hexagonal") {
        grid_type = grid_type::hexagonal; // plotting flag
        p.use_voronoi_grid = true; // simulation flag
-     }
+   }
 
    p.sq_num_pixels = static_cast<size_t>(ui->box_sq_num_pixels->value());
 
@@ -524,7 +523,10 @@ void MainWindow::update_parameters(Param& p) {
        QMessageBox::warning(this,
                             tr("Oncolytic Virus Simulator"),
                             tr("Displaying Voronoi only works when\n"
-                               "using more pixels than cells!"));
+                               "using more pixels than cells!\n"
+                               "# of pixels has been increased to \n"
+                               "accomodate this"));
+       p.sq_num_pixels = p.sq_num_cells * 1.1f;
    }
 
    set_resolution(static_cast<int>(p.sq_num_pixels),
@@ -820,5 +822,156 @@ void MainWindow::on_btn_use_3d_clicked()
   }
 
   ui->progressBar->setValue(0);
+  is_running = false;
+  is_paused = true;
   setup_simulation();
+}
+
+// boxes!
+void MainWindow::on_box_death_cancer_resistant_valueChanged(double arg1)
+{
+    sim->parameters.death_cancer_resistant = ui->box_death_cancer_resistant->value();
+}
+
+void MainWindow::on_box_birth_infected_valueChanged(double arg1)
+{
+  sim->parameters.birth_infected = ui->box_birth_infected->value();
+}
+
+void MainWindow::on_box_death_infected_valueChanged(double arg1)
+{
+    sim->parameters.death_infected = ui->box_death_infected->value();
+}
+
+void MainWindow::on_box_birth_cancer_resistant_valueChanged(double arg1)
+{
+  sim->parameters.birth_cancer_resistant = ui->box_birth_cancer_resistant->value();
+}
+
+void MainWindow::on_box_grid_type_currentIndexChanged(int index)
+{
+  if (basic_setup_done) { // we don't want this to trigger prematurely
+    auto grid_string = ui->box_grid_type->currentText();
+    if (grid_string == "regular") {
+        grid_type = grid_type::regular;        // plotting flag
+        sim->parameters.use_voronoi_grid = false; // simulation flag
+    }
+    if (grid_string == "voronoi") {
+        grid_type = grid_type::voronoi;       // plotting flag
+        sim->parameters.use_voronoi_grid = true; // simulation flag
+    }
+
+    if (grid_string == "hexagonal") {
+        grid_type = grid_type::hexagonal; // plotting flag
+        sim->parameters.use_voronoi_grid = true; // simulation flag
+    }
+    is_running = false;
+    is_paused = true;
+    setup_simulation();
+  }
+}
+
+void MainWindow::on_box_sq_num_cells_valueChanged(double arg1)
+{
+    if (ui->box_sq_num_cells->value() > 10) {
+      all_parameters.sq_num_cells = ui->box_sq_num_cells->value();
+      is_running = false;
+      is_paused = true;
+      setup_simulation();
+    }
+}
+
+void MainWindow::on_box_birth_normal_valueChanged(double arg1)
+{
+    sim->parameters.birth_normal = ui->box_birth_normal->value();
+}
+
+void MainWindow::on_box_death_normal_valueChanged(double arg1)
+{
+    sim->parameters.death_normal = ui->box_death_normal->value();
+}
+
+void MainWindow::on_box_birth_cancer_valueChanged(double arg1)
+{
+    sim->parameters.birth_cancer = ui->box_death_cancer->value();
+}
+
+void MainWindow::on_box_death_cancer_valueChanged(double arg1)
+{
+    sim->parameters.death_cancer = ui->box_death_cancer->value();
+}
+
+void MainWindow::on_box_maxtime_valueChanged(int arg1)
+{
+    sim->parameters.maximum_time = ui->box_maxtime->value();
+}
+
+void MainWindow::on_box_cancer_time_valueChanged(int arg1)
+{
+    sim->parameters.time_adding_cancer = ui->box_cancer_time->value();
+}
+
+void MainWindow::on_box_virus_time_valueChanged(int arg1)
+{
+  sim->parameters.time_adding_virus = ui->box_virus_time->value();
+}
+
+void MainWindow::on_box_prob_normal_infection_valueChanged(double arg1)
+{
+  sim->parameters.prob_normal_infection = ui->box_prob_normal_infection->value();
+}
+
+void MainWindow::on_box_freq_resistant_cancer_valueChanged(double arg1)
+{
+    sim->parameters.freq_resistant = ui->box_freq_resistant_cancer->value();
+}
+
+void MainWindow::on_box_percent_infected_valueChanged(double arg1)
+{
+    sim->parameters.percent_infected = ui->box_percent_infected->value();
+}
+
+void MainWindow::on_box_sq_num_pixels_valueChanged(double arg1)
+{
+    sim->parameters.sq_num_pixels = ui->box_sq_num_pixels->value();
+}
+
+void MainWindow::on_box_normal_cells_valueChanged(int arg1)
+{
+    sim->parameters.initial_number_normal_cells = ui->box_normal_cells->value();
+}
+
+void MainWindow::on_box_cancer_cells_valueChanged(int arg1)
+{
+    sim->parameters.initial_number_cancer_cells = ui->box_cancer_cells->value();
+}
+
+void MainWindow::on_box_distance_infection_death_valueChanged(double arg1)
+{
+    sim->parameters.distance_infection_upon_death = ui->box_distance_infection_death->value();
+}
+
+void MainWindow::on_box_prob_infection_death_valueChanged(double arg1)
+{
+    sim->parameters.prob_infection_upon_death = ui->box_prob_infection_death->value();
+}
+
+void MainWindow::on_box_infection_routine_currentIndexChanged(int index)
+{
+    auto inf_type = ui->box_infection_routine->currentText();
+    if (inf_type == "Center") {
+         sim->parameters.infection_type = infection_routine::center_infection;
+    }
+    if (inf_type == "Random") {
+        sim->parameters.infection_type = infection_routine::random_infection;
+    }
+    if (inf_type == "Periphery") {
+        sim->parameters.infection_type = infection_routine::periphery_infection;
+    }
+
+    if (sim->t > sim->parameters.time_adding_virus) {
+        is_running = false;
+        is_paused = true;
+        setup_simulation();
+    }
 }

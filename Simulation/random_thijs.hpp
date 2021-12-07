@@ -110,8 +110,8 @@ public:
     if(frac < 0.1f) {
       col = draw_cdf(start, end, r);
     } else {
-      auto max_val = std::max_element(start, end);
-      col = draw_from_dist(start, end, *max_val, r);
+      auto max_val = 1.0; //std::max_element(start, end);
+      col = draw_from_dist(start, end, max_val, r);
     }
     size_t result = row * bin_size + col;
 

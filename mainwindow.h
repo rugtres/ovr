@@ -72,6 +72,50 @@ private slots:
 
     void on_btn_use_3d_clicked();
 
+    void on_box_death_cancer_resistant_valueChanged(double arg1);
+
+    void on_box_birth_infected_valueChanged(double arg1);
+
+    void on_box_death_infected_valueChanged(double arg1);
+
+    void on_box_birth_cancer_resistant_valueChanged(double arg1);
+
+    void on_box_grid_type_currentIndexChanged(int index);
+
+    void on_box_sq_num_cells_valueChanged(double arg1);
+
+    void on_box_birth_normal_valueChanged(double arg1);
+
+    void on_box_death_normal_valueChanged(double arg1);
+
+    void on_box_birth_cancer_valueChanged(double arg1);
+
+    void on_box_death_cancer_valueChanged(double arg1);
+
+    void on_box_maxtime_valueChanged(int arg1);
+
+    void on_box_cancer_time_valueChanged(int arg1);
+
+    void on_box_virus_time_valueChanged(int arg1);
+
+    void on_box_prob_normal_infection_valueChanged(double arg1);
+
+    void on_box_freq_resistant_cancer_valueChanged(double arg1);
+
+    void on_box_percent_infected_valueChanged(double arg1);
+
+    void on_box_sq_num_pixels_valueChanged(double arg1);
+
+    void on_box_normal_cells_valueChanged(int arg1);
+
+    void on_box_cancer_cells_valueChanged(int arg1);
+
+    void on_box_distance_infection_death_valueChanged(double arg1);
+
+    void on_box_prob_infection_death_valueChanged(double arg1);
+
+    void on_box_infection_routine_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     QImage image_;
