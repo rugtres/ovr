@@ -57,7 +57,6 @@ TEST_CASE( "birth_death" )
   // add a normal cell, then kill it
 
   for(auto c : {normal, cancer, infected, resistant}) {
-  //  std::cout << c << "\n";
     Simulation.test_change_cell_type(5000, c);
 
     REQUIRE(Simulation.world[5000].get_cell_type() ==
@@ -261,7 +260,6 @@ TEST_CASE( "ask_infect_neighbours")
     }
 
     auto ct = Simulation.world[pos].get_cell_type();
-    std::cout << x << " " << dist_x << " " << ct << "\n";
 
     if (dist_x <= static_cast<int>(all_parameters.distance_infection_upon_death)) {
       REQUIRE(ct == infected);
@@ -314,7 +312,6 @@ TEST_CASE( "ask_infect_neighbours_two")
     }
 
     auto ct = Simulation.world[pos].get_cell_type();
-    std::cout << x << " " << dist_x << " " << ct << "\n";
 
     if (dist_x <= static_cast<int>(all_parameters.distance_infection_upon_death)) {
       REQUIRE(ct == infected);
@@ -332,7 +329,6 @@ TEST_CASE( "ask_infect_neighbours_two")
     }
 
     auto ct = Simulation.world[pos].get_cell_type();
-    std::cout << y << " " << dist_y << " " << ct << "\n";
 
     if (dist_y <= static_cast<int>(all_parameters.distance_infection_upon_death)) {
       REQUIRE(ct == infected);
@@ -1161,8 +1157,9 @@ TEST_CASE( "birth_death_3d" )
   all_parameters.sq_num_cells = 25;
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
+ all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   std::vector< std::vector< voronoi_point > > filler;
 
@@ -1250,7 +1247,8 @@ TEST_CASE( "birth_death_3d" )
 }
 
 
-
+/*
+ * TODO: make 3D version
 TEST_CASE( "find_central_cell_3d" )
 {
   std::cout << "testing finding center cells in 3D\n";
@@ -1258,8 +1256,9 @@ TEST_CASE( "find_central_cell_3d" )
   all_parameters.sq_num_cells = 100;
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
+   all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   std::vector< std::vector< voronoi_point > > filler;
 
@@ -1294,6 +1293,8 @@ TEST_CASE( "find_central_cell_3d" )
   REQUIRE(x2 == x3);
   REQUIRE(y2 == y3);
 }
+*/
+
 
 TEST_CASE( "add_cells_3d" )
 {
@@ -1304,8 +1305,9 @@ TEST_CASE( "add_cells_3d" )
   all_parameters.start_setup = empty_grid;
   all_parameters.initial_number_normal_cells = 1000;
   all_parameters.initial_number_cancer_cells = 100;
+ all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   std::vector< std::vector< voronoi_point > > filler;
 
@@ -1332,8 +1334,9 @@ TEST_CASE( "setup_types_3d" )
   all_parameters.sq_num_cells = 100;
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = full;
+   all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   std::vector< std::vector< voronoi_point > > filler;
 
@@ -1362,8 +1365,9 @@ TEST_CASE( "ask_infect_neighbours_3d")
   all_parameters.start_setup = full;
   all_parameters.distance_infection_upon_death = 1.0;
   all_parameters.prob_infection_upon_death = 100.f;
+   all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   std::vector< std::vector< voronoi_point > > filler;
 
@@ -1409,9 +1413,10 @@ TEST_CASE( "random_stuff_3d" )
 {
   std::cout << "testing randomizer in 3D\n";
   Param all_parameters;
+   all_parameters.using_3d = true;
   all_parameters.sq_num_cells = 10;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   // test random numbers
   Simulation.growth_prob[0].update_entry(10, 1.0f);
@@ -1458,8 +1463,9 @@ TEST_CASE( "infect_periphery_3d" )
   all_parameters.sq_num_cells = 100;
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
+  all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1502,7 +1508,7 @@ TEST_CASE( "infect_random_3d")
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1543,7 +1549,7 @@ TEST_CASE( "infect_center_3d" )
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1588,7 +1594,7 @@ TEST_CASE( "infect_center_largest_3d")
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1642,7 +1648,7 @@ TEST_CASE( "infect_all_cancer_3d" )
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1685,7 +1691,7 @@ TEST_CASE( "add_infected_3d" )
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1717,9 +1723,8 @@ TEST_CASE( "add_infected_3d" )
                     40);
 }
 
-
 // update_one_step
-TEST_CASE( "update_one_step_3d")
+TEST_CASE("update_one_step_3d")
 {
   std::cout << "test update one step in 3D\n";
 
@@ -1729,7 +1734,7 @@ TEST_CASE( "update_one_step_3d")
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = empty_grid;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1765,7 +1770,7 @@ TEST_CASE( "obtain_equilibrium_3d ")
   all_parameters.initial_number_normal_cells = 5000;
   all_parameters.using_3d = true;
 
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, grid_type::regular);
@@ -1832,7 +1837,7 @@ TEST_CASE( "check_grow_2_3d" )
 TEST_CASE( "set_infection_3d" )
 {
   Param all_parameters;
-  simulation_impl<node_3d> Simulation(all_parameters);
+  simulation_impl<node_3d> Simulation(all_parameters, true);
 
   std::vector< std::vector< voronoi_point > > filler;
 
