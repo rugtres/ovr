@@ -18,11 +18,11 @@ jobs:
           sudo apt-get install g++
       - name: Run Tests
         run: |
-          g++ -std=c++14 -o TestProgram -fprofile-arcs -ftest-coverage -fprofile-generate test/main.cpp Simulation/analysis.cpp Simulation/node.cpp Simulation/setup.cpp Simulation/simulation.cpp
+          g++ -std=c++14 -o TestProgram -fprofile-arcs -ftest-coverage -fprofile-generate test/main.cpp Simulation/analysis.cpp
           ./TestProgram
-          gcov -o . test/main.cpp Simulation/analysis.cpp Simulation/node.cpp Simulation/setup.cpp Simulation/simulation.cpp
+          gcov -o . test/main.cpp Simulation/analysis.cpp
       - name: Upload
         uses: codecov/codecov-action@v1
         with:
-          files: random_thijs.hpp.gcov,simulation.hpp.gcov,parameters.hpp.gcov,node.hpp.gcov,simulation.hpp.gcov,analysis.cpp.gcov,node.cpp.gcov,setup.cpp.gcov,simulation.cpp.gcov,
+          files: random_thijs.hpp.gcov,simulation.hpp.gcov,parameters.hpp.gcov,node_base.hpp.gcov,simulation.hpp.gcov,analysis.cpp.gcov,node_3d.hpp.gcov,node_2d.hpp.gcov
           token: ${{ secrets.CODECOV_TOKEN }}
