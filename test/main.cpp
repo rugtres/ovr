@@ -1482,7 +1482,7 @@ TEST_CASE( "infect_periphery_3d" )
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    400);
+                    8000);
 
 
   Simulation.test_infect_periphery(1.0);
@@ -1516,14 +1516,16 @@ TEST_CASE( "infect_random_3d")
   // create a square
   for (size_t x = 40; x < 60; ++x) {
       for (size_t y = 40; y < 60; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 40; z < 60; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    400);
+                    8000);
 
   // now we randomly infect some cells
   Simulation.test_infect_random(0.1);
@@ -1537,7 +1539,7 @@ TEST_CASE( "infect_random_3d")
                  cell_counts_before[infected]);
 
   REQUIRE(cell_counts_after[infected] ==
-                    40);
+                    800);
 }
 
 TEST_CASE( "infect_center_3d" )
@@ -1557,14 +1559,16 @@ TEST_CASE( "infect_center_3d" )
   // create a square
   for (size_t x = 40; x < 60; ++x) {
       for (size_t y = 40; y < 60; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 40; z < 60; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    400);
+                    8000);
 
   // now we randomly infect some cells
   Simulation.test_infect_center(0.1f);
@@ -1578,7 +1582,7 @@ TEST_CASE( "infect_center_3d" )
                  cell_counts_before[infected]);
 
   REQUIRE(cell_counts_after[infected] ==
-                    40);
+                    800);
 
   size_t central_pos = Simulation.find_central_cell(cancer);
   auto ctype = Simulation.world[central_pos].get_cell_type();
@@ -1602,21 +1606,25 @@ TEST_CASE( "infect_center_largest_3d")
   // create two squares
   for (size_t x = 40; x < 60; ++x) {
       for (size_t y = 40; y < 60; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 40; z < 60; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   for (size_t x = 20; x < 30; ++x) {
       for (size_t y = 20; y < 30; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 20; z < 30; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    500);
+                    9000);
 
   Simulation.test_infect_center_largest(0.1f);
   std::array<size_t, 5> cell_counts_after = Simulation.count_cell_types();
@@ -1629,13 +1637,15 @@ TEST_CASE( "infect_center_largest_3d")
                  cell_counts_before[infected]);
 
   REQUIRE(cell_counts_after[infected] ==
-                    40);
+                    800);
 
   auto index = Simulation.find_central_cell(infected);
   float x1 = Simulation.world[index].x_;
   float y1 = Simulation.world[index].y_;
-  REQUIRE(x1 == 50);
-  REQUIRE(y1 == 50);
+  float z1 = Simulation.world[index].z_;
+  REQUIRE(x1 == 49);
+  REQUIRE(y1 == 49);
+  REQUIRE(z1 == 49);
 }
 
 TEST_CASE( "infect_all_cancer_3d" )
@@ -1656,14 +1666,16 @@ TEST_CASE( "infect_all_cancer_3d" )
   // create a square
   for (size_t x = 40; x < 60; ++x) {
       for (size_t y = 40; y < 60; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 40; z < 60; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    400);
+                    8000);
 
   // now we randomly infect some cells
   Simulation.test_infect_all_cancer();
@@ -1677,7 +1689,7 @@ TEST_CASE( "infect_all_cancer_3d" )
                  cell_counts_before[infected]);
 
   REQUIRE(cell_counts_after[infected] ==
-                    400);
+                    8000);
 }
 
 
@@ -1699,14 +1711,16 @@ TEST_CASE( "add_infected_3d" )
   // create a square
   for (size_t x = 40; x < 60; ++x) {
       for (size_t y = 40; y < 60; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 40; z < 60; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    400);
+                    8000);
 
   // now we randomly infect some cells
   Simulation.add_infected(random_infection, 0.1f);
@@ -1720,7 +1734,7 @@ TEST_CASE( "add_infected_3d" )
                  cell_counts_before[infected]);
 
   REQUIRE(cell_counts_after[infected] ==
-                    40);
+                    800);
 }
 
 // update_one_step
@@ -1742,20 +1756,22 @@ TEST_CASE("update_one_step_3d")
   // create a square
   for (size_t x = 40; x < 60; ++x) {
       for (size_t y = 40; y < 60; ++y) {
-          size_t pos = x + y * 100;
-          Simulation.test_change_cell_type(pos, cancer);
+          for (size_t z = 40; z < 60; ++z) {
+            size_t pos = x + 100 * (y + z * 100);
+            Simulation.test_change_cell_type(pos, cancer);
+          }
       }
   }
 
   std::array<size_t, 5> cell_counts_before = Simulation.count_cell_types();
   REQUIRE(cell_counts_before[cancer] ==
-                    400);
+                    8000);
 
   Simulation.update_one_step();
 
   std::array<size_t, 5> cell_counts_after = Simulation.count_cell_types();
   REQUIRE(cell_counts_after[cancer] ==
-                    401);
+                    8001);
 }
 
 /*
