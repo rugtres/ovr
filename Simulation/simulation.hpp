@@ -499,6 +499,53 @@ public:
     update_count(previous_type, new_cell_type);
   }
 
+  void initialize_network(std::vector< std::vector< voronoi_point > >& all_polys,
+                          grid_type used_grid_type) override {
+    // initialize default.
+    for(size_t i = 0; i < 4; ++i) {
+        growth_prob[i] = binned_distribution(sq_size, num_cells);
+        death_prob[i] = binned_distribution(sq_size, num_cells);
+    }
+
+    for(auto& i : world) {
+        i.prob_normal_infected = parameters.prob_normal_infection;
+      }
+
+    if(parameters.use_voronoi_grid == false) {
+        for(auto& i : world) {
+            i.update_neighbors(world, sq_size);
+            change_cell_type(i.pos, empty);
+          }
+      }
+    if(parameters.use_voronoi_grid == true) {
+
+        setup_voronoi(all_polys, used_grid_type,
+                      num_cells, sq_size, rndgen);
+        for(size_t i = 0; i < num_cells; ++i) {
+            world[i].inv_num_neighbors = 1.f / world[i].neighbors.size();
+            update_growth_prob(i);
+            update_death_prob(i);
+          }
+      }
+
+    if(parameters.start_setup == grow || parameters.start_setup == converge) {
+        add_cells(normal);
+        for(size_t i = 0; i < num_cells; ++i) {
+            update_growth_prob(i);
+            update_death_prob(i);
+          }
+      }
+
+    if(parameters.start_setup == full) {
+        initialize_full();
+    }
+
+    for(size_t i = 0; i < growth_prob.size(); ++i) {
+        growth_prob[i].update_all();
+        death_prob[i].update_all();
+    }
+  }
+
 private:
 
 
@@ -1034,58 +1081,20 @@ private:
         all_polys.push_back(poly);
       }
   }
-
-  void initialize_network(std::vector< std::vector< voronoi_point > >& all_polys,
-                          grid_type used_grid_type) override {
-    // initialize default.
-    for(size_t i = 0; i < 4; ++i) {
-        growth_prob[i] = binned_distribution(sq_size, num_cells);
-        death_prob[i] = binned_distribution(sq_size, num_cells);
-    }
-
-    for(auto& i : world) {
-        i.prob_normal_infected = parameters.prob_normal_infection;
-      }
-
-    if(parameters.use_voronoi_grid == false) {
-        for(auto& i : world) {
-            i.update_neighbors(world, sq_size);
-            change_cell_type(i.pos, empty);
-          }
-      }
-    if(parameters.use_voronoi_grid == true) {
-
-        setup_voronoi(all_polys, used_grid_type,
-                      num_cells, sq_size, rndgen);
-        for(size_t i = 0; i < num_cells; ++i) {
-            world[i].inv_num_neighbors = 1.f / world[i].neighbors.size();
-            update_growth_prob(i);
-            update_death_prob(i);
-          }
-      }
-
-    if(parameters.start_setup == grow || parameters.start_setup == converge) {
-        add_cells(normal);
-        for(size_t i = 0; i < num_cells; ++i) {
-            update_growth_prob(i);
-            update_death_prob(i);
-          }
-      }
-
-    if(parameters.start_setup == full) {
-        initialize_full();
-    }
-
-    for(size_t i = 0; i < growth_prob.size(); ++i) {
-        growth_prob[i].update_all();
-        death_prob[i].update_all();
-    }
-  }
 };
 
 inline std::unique_ptr<simulation> create_simulation(bool use_3d,
                                                      const Param& p) {
   if (!use_3d) {
+    return std::unique_ptr<simulation>(new simulation_impl<node_2d>(p));
+  }
+  else {
+    return std::unique_ptr<simulation>(new simulation_impl<node_3d>(p, true));
+  }
+}
+
+inline std::unique_ptr<simulation> create_simulation(const Param& p) {
+  if (!p.using_3d) {
     return std::unique_ptr<simulation>(new simulation_impl<node_2d>(p));
   }
   else {

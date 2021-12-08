@@ -8,20 +8,19 @@ QMAKE_CXXFLAGS += -std=c++17
 
 SOURCES += \
     ./Simulation/analysis.cpp \
-    ./Simulation/node.cpp \
-    ./Simulation/setup.cpp \
-    ./Simulation/simulation.cpp \
     ./test/main.cpp
 
 HEADERS += \
     ./Simulation/analysis.hpp \
-    ./Simulation/node.hpp \
     ./Simulation/parameters.hpp \
     ./Simulation/random_thijs.hpp \
     ./Simulation/rndutils.hpp \
     ./Simulation/simulation.hpp \
     ./Simulation/voronoi.hpp \
-    ./test/catch.h
+    ./test/catch.h \
+    ./Simulation/node_2d.hpp \
+    ./Simulation/node_3d.hpp \
+    ./Simulation/node_base.hpp
 
 CONFIG += debug_and_release
 
