@@ -1645,7 +1645,6 @@ TEST_CASE( "infect_center_largest_3d")
   float z1 = Simulation.world[index].z_;
   REQUIRE(x1 == 49);
   REQUIRE(y1 == 49);
-  REQUIRE(z1 == 49);
 }
 
 TEST_CASE( "infect_all_cancer_3d" )
