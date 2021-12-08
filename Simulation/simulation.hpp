@@ -50,6 +50,10 @@ public:
   virtual void update_grow_params() = 0;
   virtual infection_routine get_infection_type() const = 0;
   virtual float get_percent_infected() const = 0;
+
+  virtual void add_cells(const cell_type& focal_cell_type) = 0;
+
+  virtual void obtain_equilibrium() = 0;
 };
 
 
@@ -255,7 +259,7 @@ public:
     return total_num_cell_types;
   }
 
-  void add_cells(const cell_type& focal_cell_type) {
+  void add_cells(const cell_type& focal_cell_type) override {
 
     // pick center node:
     cell_type to_be_replaced = empty;
@@ -303,7 +307,7 @@ public:
       }
   }
 
-  void obtain_equilibrium() {
+  void obtain_equilibrium() override {
 
     std::vector< float > densities(10, 0);
     float prev_t = t;

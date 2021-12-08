@@ -13,8 +13,8 @@ void obtain_equilibrium(simulation& Simulation, const Param& all_parameters);
 int main(int argc, char *argv[]) {
 
   std::cout << "Welcome to this In Silico Simulation of oncolytic tumor virotherapy\n";
-  std::cout << "Copyright 2019 - 2020, D. Bhatt, T. Janzen & F.J. Weissing\n";
-  std::cout << "This is version: 0.7\n";
+  std::cout << "Copyright 2019 - 2021, D. Bhatt, T. Janzen & F.J. Weissing\n";
+  std::cout << "This is version: 0.8.2\n";
 
   std::cout << "All files are to be found in this folder: \n";
   std::cout << argv[0] << "\n";
@@ -94,6 +94,8 @@ void read_parameters_from_ini(Param& p, const std::string file_name) {
   p.prob_infection_upon_death = from_config.getValueOfKey<float>("prob_infection_upon_death");
 
   p.sq_num_cells = from_config.getValueOfKey<size_t>("sq_num_cells");
+
+  p.using_3d = from_config.getValueOfKey<bool>("using_3d");
 
   p.infection_type = random_infection;
   auto infection_string = from_config.getValueOfKey<std::string>("infection_type");
