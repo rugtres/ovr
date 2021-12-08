@@ -1642,9 +1642,8 @@ TEST_CASE( "infect_center_largest_3d")
   auto index = Simulation.find_central_cell(infected);
   float x1 = Simulation.world[index].x_;
   float y1 = Simulation.world[index].y_;
-  float z1 = Simulation.world[index].z_;
-  REQUIRE(x1 == 49);
-  REQUIRE(y1 == 49);
+  REQUIRE(x1 == 49.f);
+  REQUIRE(y1 == 49.f);
 }
 
 TEST_CASE( "infect_all_cancer_3d" )
