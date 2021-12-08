@@ -57,6 +57,8 @@ public:
     void obtain_equilibrium();
     void update_display();
 
+    void update_3d_gui();
+
 private slots:
     void on_btn_start_clicked();
 
@@ -115,6 +117,10 @@ private slots:
     void on_box_prob_infection_death_valueChanged(double arg1);
 
     void on_box_infection_routine_currentIndexChanged(int index);
+
+    void on_depth_slider_actionTriggered(int action);
+
+    void on_depth_slider_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;

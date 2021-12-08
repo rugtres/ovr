@@ -91,15 +91,14 @@ MainWindow::MainWindow(QWidget *parent)
     colorz.push_back(QColor(0, 0, 255));     // normal cells
     colorz.push_back(QColor(255, 0, 0));     // cancer cells
     colorz.push_back(QColor(0, 255, 0));     // infected cells
-    // orange colorz.push_back(QColor(255, 102, 51)); // resistant cells
-     colorz.push_back(QColor(255, 100, 255)); // pink
+    colorz.push_back(QColor(128, 100, 128)); // pink
     colorz.push_back(QColor(0, 0, 0));       // empty cells
 
     ui->progressBar->setStyleSheet("QProgressBar { border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px;  border-top-left-radius: 5px; border: 1px solid black; padding: 1px;background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #fff, stop: 1 #ddd );width: 7px;  } QProgressBar::chunk {background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,stop: 0 #78d,stop: 0.4999 #46a,stop: 0.5 #45a,stop: 1 #238 );border: 1px solid black; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px;  border-top-left-radius: 5px; }");
 
     factor_x = 1.f;
     factor_y = 1.f;
-
+    update_3d_gui();
     setup_simulation();
 }
 
@@ -798,13 +797,21 @@ void MainWindow::on_btn_add_virus_clicked()
                      sim->get_percent_infected());
 }
 
+void MainWindow::update_3d_gui() {
+   ui->depth_slider->setVisible(using_3d); // depth slider
+   ui->label_30->setVisible(using_3d);     // Focal Layer
+   ui->label_31->setVisible(using_3d);     // Front
+   ui->label_32->setVisible(using_3d);     // Middle
+   ui->label_33->setVisible(using_3d);     // Back
+}
+
 void MainWindow::on_btn_use_3d_clicked()
 {
   using_3d = !using_3d;
-
+  update_3d_gui();
   if (using_3d) {
       ui->btn_use_3d->setText("Switch to 2D");
-      ui->label_using_3d->setText("USING 3D");
+      // ui->label_using_3d->setText("USING 3D");
 
       if (grid_type != grid_type::regular) {
           QMessageBox::warning(this,
@@ -816,10 +823,12 @@ void MainWindow::on_btn_use_3d_clicked()
       grid_type = grid_type::regular;
       all_parameters.use_voronoi_grid = false;
       ui->box_grid_type->setCurrentText("regular");
+
   } else {
       ui->btn_use_3d->setText("Switch to 3D");
-      ui->label_using_3d->setText("using 2D, NOT using 3D");
+   //   ui->label_using_3d->setText("using 2D, NOT using 3D");
   }
+
 
   ui->progressBar->setValue(0);
   is_running = false;
@@ -974,4 +983,14 @@ void MainWindow::on_box_infection_routine_currentIndexChanged(int index)
         is_paused = true;
         setup_simulation();
     }
+}
+
+void MainWindow::on_depth_slider_actionTriggered(int action)
+{
+    update_display();
+}
+
+void MainWindow::on_depth_slider_sliderMoved(int position)
+{
+    update_display();
 }

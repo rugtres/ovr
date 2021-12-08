@@ -70,7 +70,7 @@ public:
 
   const std::array< binned_distribution, 4 >& get_death_prob()  override {
       return death_prob;
-    }
+  }
 
   std::array<size_t, 5> num_cell_types;
 

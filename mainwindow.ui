@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1306</width>
-    <height>791</height>
+    <width>1304</width>
+    <height>801</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -66,32 +66,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QCustomPlot" name="line_plot" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>460</y>
-      <width>531</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <widget class="QFrame" name="frame_9">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>531</width>
-       <height>281</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
-   </widget>
    <widget class="QLabel" name="label_27">
     <property name="geometry">
      <rect>
@@ -149,8 +123,8 @@
    <widget class="QLabel" name="label_29">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>740</y>
+      <x>380</x>
+      <y>750</y>
       <width>211</width>
       <height>31</height>
      </rect>
@@ -177,9 +151,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>70</y>
       <width>531</width>
-      <height>351</height>
+      <height>411</height>
      </rect>
     </property>
     <property name="palette">
@@ -631,7 +605,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -644,8 +618,8 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>280</y>
-        <width>441</width>
+        <y>250</y>
+        <width>411</width>
         <height>27</height>
        </rect>
       </property>
@@ -679,8 +653,8 @@
      <widget class="QLabel" name="label_26">
       <property name="geometry">
        <rect>
-        <x>18</x>
-        <y>255</y>
+        <x>10</x>
+        <y>230</y>
         <width>54</width>
         <height>16</height>
        </rect>
@@ -693,8 +667,8 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>254</y>
-        <width>441</width>
+        <y>230</y>
+        <width>411</width>
         <height>20</height>
        </rect>
       </property>
@@ -713,8 +687,8 @@
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>280</y>
+        <x>10</x>
+        <y>250</y>
         <width>54</width>
         <height>24</height>
        </rect>
@@ -723,61 +697,27 @@
        <string>Speed</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_add_virus">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>200</y>
-        <width>221</width>
-        <height>47</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial Black</family>
-        <pointsize>22</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Add virus</string>
-      </property>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>44</x>
         <y>10</y>
-        <width>371</width>
-        <height>191</height>
+        <width>424</width>
+        <height>211</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>birth_infected</string>
+          <string>birth infected</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="box_birth_infected">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.200000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="label_23">
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_24">
          <property name="text">
-          <string>grid type</string>
+          <string>sqrt(#cells)</string>
          </property>
          <property name="scaledContents">
           <bool>false</bool>
@@ -787,37 +727,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QComboBox" name="box_grid_type">
-         <property name="currentText">
-          <string notr="true"/>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_9">
          <property name="text">
-          <string>death_infected</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="box_death_infected">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>color scheme</string>
+          <string>death infected</string>
          </property>
         </widget>
        </item>
@@ -828,10 +741,10 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>birth_resistant</string>
+       <item row="0" column="3">
+        <widget class="QComboBox" name="box_grid_type">
+         <property name="currentText">
+          <string notr="true"/>
          </property>
         </widget>
        </item>
@@ -848,10 +761,80 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="label_24">
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_22">
          <property name="text">
-          <string>sqrt(#cells)</string>
+          <string>color scheme</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>Production rate  of resistant cells</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="box_birth_infected">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.200000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="box_death_infected">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>birth resistant</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>death resistant</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="box_death_cancer_resistant">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>grid type</string>
          </property>
          <property name="scaledContents">
           <bool>false</bool>
@@ -880,36 +863,6 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>death_resistant</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="box_death_cancer_resistant">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="text">
-          <string>Production rate  resistance</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="1">
         <widget class="QDoubleSpinBox" name="box_freq_resistant_cancer">
          <property name="alignment">
@@ -929,7 +882,117 @@
          </property>
         </widget>
        </item>
+       <item row="4" column="2" colspan="2">
+        <widget class="QPushButton" name="btn_add_virus">
+         <property name="font">
+          <font>
+           <family>Arial Black</family>
+           <pointsize>20</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Add virus</string>
+         </property>
+        </widget>
+       </item>
       </layout>
+     </widget>
+     <widget class="QLabel" name="label_30">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>350</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Focal layer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_33">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>330</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QSlider" name="depth_slider">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>340</y>
+        <width>411</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>50</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBelow</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_32">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>330</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Middle</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_31">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>330</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Front</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_use_3d">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>280</y>
+        <width>181</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Use 3D</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab2">
@@ -939,8 +1002,8 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>20</y>
+        <x>70</x>
+        <y>40</y>
         <width>191</width>
         <height>282</height>
        </rect>
@@ -1135,8 +1198,8 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>80</y>
+        <x>290</x>
+        <y>120</y>
         <width>191</width>
         <height>121</height>
        </rect>
@@ -1251,8 +1314,8 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>210</y>
+        <x>290</x>
+        <y>250</y>
         <width>171</width>
         <height>111</height>
        </rect>
@@ -1315,8 +1378,8 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>10</y>
+        <x>290</x>
+        <y>40</y>
         <width>171</width>
         <height>71</height>
        </rect>
@@ -1365,117 +1428,12 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
-     <attribute name="title">
-      <string>3D</string>
-     </attribute>
-     <widget class="QSlider" name="depth_slider">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>130</y>
-        <width>371</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="maximum">
-       <number>100</number>
-      </property>
-      <property name="value">
-       <number>50</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="tickPosition">
-       <enum>QSlider::TicksBelow</enum>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_use_3d">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>10</y>
-        <width>141</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Use 3D</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_30">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>140</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Focal layer</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_using_3d">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>20</y>
-        <width>181</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>not using 3d</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_31">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>120</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Front</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_32">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>120</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Middle</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_33">
-      <property name="geometry">
-       <rect>
-        <x>440</x>
-        <y>120</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Back</string>
-      </property>
-     </widget>
-    </widget>
    </widget>
    <widget class="QPushButton" name="btn_setup">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>0</y>
+      <x>220</x>
+      <y>20</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -1492,9 +1450,9 @@
    <widget class="QPushButton" name="btn_start">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>50</y>
-      <width>131</width>
+      <x>330</x>
+      <y>20</y>
+      <width>111</width>
       <height>41</height>
      </rect>
     </property>
@@ -1516,9 +1474,9 @@
    <widget class="QPushButton" name="btn_stop">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>50</y>
-      <width>121</width>
+      <x>440</x>
+      <y>20</y>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
@@ -1531,15 +1489,41 @@
      <string>Stop</string>
     </property>
    </widget>
+   <widget class="QFrame" name="frame_9">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>490</y>
+      <width>531</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QCustomPlot" name="line_plot" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>531</width>
+       <height>261</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
    <zorder>tabWidget</zorder>
    <zorder>q_label</zorder>
-   <zorder>line_plot</zorder>
    <zorder>label_27</zorder>
    <zorder>label_29</zorder>
    <zorder>label_28</zorder>
    <zorder>btn_setup</zorder>
    <zorder>btn_start</zorder>
    <zorder>btn_stop</zorder>
+   <zorder>frame_9</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
