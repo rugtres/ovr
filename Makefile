@@ -1,5 +1,5 @@
 CFLAGS = -std=c++17 -O3 -Wall 
-OBJS = main.o simulation.o setup.o analysis.o
+OBJS = main.o analysis.o
 
 all: ${OBJS}
 	g++ ${CFLAGS} ${OBJS} -o onco_model
