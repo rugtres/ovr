@@ -25,4 +25,3 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           files: random_thijs.hpp.gcov,simulation.hpp.gcov,parameters.hpp.gcov,node_base.hpp.gcov,simulation.hpp.gcov,analysis.cpp.gcov,node_3d.hpp.gcov,node_2d.hpp.gcov
-          token: ${{ secrets.CODECOV_TOKEN }}
