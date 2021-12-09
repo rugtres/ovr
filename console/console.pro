@@ -24,9 +24,3 @@ HEADERS += \
 
 DISTFILES += \
     config.ini
-
-
-# Boost.Test
-# LIBS += -lboost_unit_test_framework
-# LIBS += -L"/usr/local/Cellar/boost/1.70.0/lib"
-# INCLUDEPATH += "/usr/local/Cellar/boost/1.70.0/include"
