@@ -19,7 +19,8 @@ Testing is performed using the Catch2 framework, based on the console version. T
 
 Branch|Code Coverage
 ---|---
-master|[![codecov.io](https://codecov.io/github/rugtres/ovr/coverage.svg?branch=master)](https://codecov.io/github/rugtres/ovr/coverage.svg?branch=master)
+master|[![codecov](https://codecov.io/gh/rugtres/ovr/branch/main/graph/badge.svg?token=338KW3H26T)](https://codecov.io/gh/rugtres/ovr)
+
 
 
 ![](https://github.com/rugtres/ovr/blob/main/Screenshots/GUI.png)
