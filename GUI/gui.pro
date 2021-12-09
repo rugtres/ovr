@@ -15,6 +15,16 @@ SOURCES += \
     qcustomplot.cpp
 
 HEADERS += \
+    ../Simulation/node_2d.hpp \
+    ../Simulation/node_3d.hpp \
+    ../Simulation/node_base.hpp \
+    ../Simulation/parameters.hpp \
+    ../Simulation/random_thijs.hpp \
+    ../Simulation/rndutils.hpp \
+    ../Simulation/setup.hpp \
+    ../Simulation/simulation.hpp \
+    ../Simulation/voronoi.hpp \
+    ../Simulation/voronoi_tools.hpp \
     Simulation/node_2d.hpp \
     Simulation/node_3d.hpp \
     Simulation/node_base.hpp \

@@ -8,7 +8,7 @@
 #include <chrono>
 #include <iostream>
 
-#include "Simulation/setup.hpp"
+#include "../Simulation/setup.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

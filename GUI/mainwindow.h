@@ -6,8 +6,8 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-#include "Simulation/simulation.hpp"
-#include "Simulation/voronoi_tools.hpp"
+#include "../Simulation/simulation.hpp"
+#include "../Simulation/voronoi_tools.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
