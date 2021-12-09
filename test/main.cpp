@@ -858,7 +858,7 @@ TEST_CASE( "infect_second_time" )
   std::cout << "using random infection\n";
 
   Param all_parameters;
-  all_parameters.sq_num_cells = 25;
+  all_parameters.sq_num_cells = 100;
   all_parameters.use_voronoi_grid = false;
   all_parameters.infection_type = random_infection;
 
