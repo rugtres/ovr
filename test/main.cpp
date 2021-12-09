@@ -871,7 +871,7 @@ TEST_CASE( "infect_second_time" )
 
   std::array<size_t, 5> result = do_analysis(all_parameters);
   std::string outcome = get_outcome(result);
-  REQUIRE(outcome ==  "C");
+  REQUIRE(outcome ==  "A");
 
   all_parameters.use_voronoi_grid = true;
   result = do_analysis(all_parameters);
