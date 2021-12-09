@@ -3,11 +3,19 @@
 
 Oncolytic Virus Resistance simulation
 
-This GitHub page contains all code to compile OVR. There are three flavors available: GUI, Console and Test, each residing in their respective folders. The GUI folder contains the code specific to compile the GUI version, the Console folder contains the code to compile a terminal only (no GUI) version, that reads parameters from a parameter (ini) file. Lastly, the Test folder uses Catch2 to test several properties of the model and verify that the code runs correctly. 
+Repository for code and executable simulating the interplay between a tumour and an Oncolytic Virus, including anti-viral resistance.
 
-For those not interested in compiling the code yourself, the folder Release contains a Windows installer that creates a folder on your computer containing OVR.exe, which should run independently. 
+## GUI
 
+The GUI version is available as Windows installer in the folder 'release'. Furthermore, the folder GUI contains a QT project file and the necessary ui files to be able to compile the program
 
+## Console
+
+For demanding simulations, it can be beneficial to use the program without the GUI components, in order to improve computational speed. For this purpose, the files in the folder 'console' are available. These include some code to do automated analyses and code to read parameters from a config file (in contrast to reading them from the GUI). One can use the QT project file, but alternatively the folder also includes a Makefile to compile the code. 
+
+## Testing
+
+Testing is performed using the Catch2 framework, based on the console version. The 'test' folder contains all relevant files to be able to perform testing. 
 
 Branch|Code Coverage
 ---|---
