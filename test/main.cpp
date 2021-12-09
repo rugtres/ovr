@@ -825,28 +825,28 @@ TEST_CASE( "infect_long_distance2" ) {
 
 }
 
-/*
+
 TEST_CASE( "obtain_equilibrium" )
 {
   std::cout << "test obtain equilibrium\n";
 
   Param all_parameters;
-  all_parameters.sq_num_cells = 100;
+  all_parameters.sq_num_cells = 25;
   all_parameters.use_voronoi_grid = false;
   all_parameters.start_setup = grow;
-  all_parameters.initial_number_normal_cells = 5000;
+  all_parameters.initial_number_normal_cells = 625 * 0.5;
 
   simulation_impl<node_2d> Simulation(all_parameters);
   std::vector< std::vector< voronoi_point > > filler;
 
   Simulation.initialize_network(filler, regular);
 
-  Simulation.obtain_equilibrium();
+  Simulation.obtain_equilibrium(true);
 
   std::array<size_t, 5> ctypes = Simulation.count_cell_types();
 
   REQUIRE(ctypes[normal] > 0.0);
-  REQUIRE(ctypes[normal] > 4000);
+  REQUIRE(ctypes[normal] > 300);
   REQUIRE(ctypes[normal] < 10000);
   REQUIRE(ctypes[normal] < 6000);
 }
@@ -858,7 +858,7 @@ TEST_CASE( "infect_second_time" )
   std::cout << "using random infection\n";
 
   Param all_parameters;
-  all_parameters.sq_num_cells = 100;
+  all_parameters.sq_num_cells = 25;
   all_parameters.use_voronoi_grid = false;
   all_parameters.infection_type = random_infection;
 
@@ -879,6 +879,7 @@ TEST_CASE( "infect_second_time" )
   REQUIRE(outcome ==  outcome2);
 }
 
+/*
 TEST_CASE( "check_grow_2" )
 {
   std::cout << "simulation allowing growth from the start\n";

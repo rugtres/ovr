@@ -19,9 +19,6 @@ struct rnd_t {
     rndgen_ = rndutils::make_random_engine(rd());
   }
 
-  std::cauchy_distribution<float> cauch_dist = std::cauchy_distribution<float>(0.f, 0.01f);
-  std::bernoulli_distribution      bern_dist = std::bernoulli_distribution(0.01);
-
   rndutils::uniform01_distribution<float> rndutil_norm;
 
   size_t random_number(size_t n)    {
@@ -60,7 +57,6 @@ public:
     row_sum.resize(num_bins, 0.f);
     values.resize(num_values, 0.f);
   }
-
 
   template< typename It>
   binned_distribution(It first, It last, size_t num_of_bins) :

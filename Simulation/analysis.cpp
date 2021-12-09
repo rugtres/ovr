@@ -20,7 +20,7 @@ std::array<size_t, 5> do_analysis(Param all_parameters) {
 
   if(all_parameters.start_setup == converge) {
       std::cout << "simulating until having reached equilibrium with normal cells\n";
-      Simulation->obtain_equilibrium(); // this obtains a fully grown grid, with normal cells
+      Simulation->obtain_equilibrium(false); // this obtains a fully grown grid, with normal cells
   }
 
   Simulation->t = 0.f;

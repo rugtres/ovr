@@ -53,7 +53,7 @@ public:
 
   virtual void add_cells(const cell_type& focal_cell_type) = 0;
 
-  virtual void obtain_equilibrium() = 0;
+  virtual void obtain_equilibrium(bool verbose) = 0;
 };
 
 
@@ -307,9 +307,10 @@ public:
       }
   }
 
-  void obtain_equilibrium() override {
+  void obtain_equilibrium(bool verbose = false) override {
 
     std::vector< float > densities(10, 0);
+    t = 0.f;
     float prev_t = t;
     std::array<size_t, 5> cell_counts = num_cell_types;
     int count = 0;
@@ -334,6 +335,9 @@ public:
                   }
               }
             prev_t = t;
+            if (verbose) {
+                std::cout << t << " " << cell_counts[normal] << "\n";
+              }
           }
       }
     return;

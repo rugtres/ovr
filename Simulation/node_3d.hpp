@@ -39,9 +39,6 @@ struct node_3d : public node_base {
             if(other_pos >= 0 && other_pos < static_cast<int>(world.size())) {
                 node_3d* neighbor = &world[static_cast<size_t>(other_pos)];
 
-                assert(static_cast<int>(neighbor->x_) == other_x);
-                assert(static_cast<int>(neighbor->y_) == other_y);
-                assert(static_cast<int>(neighbor->z_) == other_z);
                 neighbors.push_back(neighbor);
               }
           }
