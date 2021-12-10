@@ -994,3 +994,18 @@ void MainWindow::on_depth_slider_sliderMoved(int position)
 {
     update_display();
 }
+
+void MainWindow::on_box_start_setup_activated(int index)
+{
+    auto start_string = ui->box_start_setup->currentText();
+    if(start_string == "Grow")
+        sim->parameters.start_setup = grow;
+    if(start_string == "Full")
+        sim->parameters.start_setup = full;
+    if(start_string == "Converge")
+        sim->parameters.start_setup = converge;
+
+    is_running = false;
+    is_paused = true;
+    setup_simulation();
+}

@@ -122,6 +122,8 @@ private slots:
 
     void on_depth_slider_sliderMoved(int position);
 
+    void on_box_start_setup_activated(int index);
+
 private:
     Ui::MainWindow *ui;
     QImage image_;
