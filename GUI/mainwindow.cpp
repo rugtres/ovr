@@ -91,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
     colorz.push_back(QColor(0, 0, 255));     // normal cells
     colorz.push_back(QColor(255, 0, 0));     // cancer cells
     colorz.push_back(QColor(0, 255, 0));     // infected cells
-    colorz.push_back(QColor(128, 100, 128)); // pink
+    colorz.push_back(QColor(128, 0, 128)); // pink
     colorz.push_back(QColor(0, 0, 0));       // empty cells
 
     ui->progressBar->setStyleSheet("QProgressBar { border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px;  border-top-left-radius: 5px; border: 1px solid black; padding: 1px;background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #fff, stop: 1 #ddd );width: 7px;  } QProgressBar::chunk {background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,stop: 0 #78d,stop: 0.4999 #46a,stop: 0.5 #45a,stop: 1 #238 );border: 1px solid black; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px;  border-top-left-radius: 5px; }");
