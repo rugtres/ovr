@@ -869,12 +869,13 @@ TEST_CASE( "infect_second_time" )
   all_parameters.time_adding_virus = 100;
   all_parameters.time_adding_virus_2 = 100;
 
-  std::array<size_t, 5> result = do_analysis(all_parameters);
+  float dummy_t;
+  std::array<size_t, 5> result = do_analysis(all_parameters, dummy_t);
   std::string outcome = get_outcome(result);
   REQUIRE(outcome ==  "C");
 
   all_parameters.use_voronoi_grid = true;
-  result = do_analysis(all_parameters);
+  result = do_analysis(all_parameters, dummy_t);
   std::string outcome2 = get_outcome(result);
   REQUIRE(outcome ==  outcome2);
 }
