@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1304</width>
-    <height>792</height>
+    <height>765</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -123,8 +123,8 @@
    <widget class="QLabel" name="label_29">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>750</y>
+      <x>430</x>
+      <y>740</y>
       <width>211</width>
       <height>31</height>
      </rect>
@@ -697,208 +697,6 @@
        <string>Speed</string>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>44</x>
-        <y>10</y>
-        <width>424</width>
-        <height>211</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>birth infected</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="label_24">
-         <property name="text">
-          <string>sqrt(#cells)</string>
-         </property>
-         <property name="scaledContents">
-          <bool>false</bool>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>death infected</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QComboBox" name="drpdwnbox_display">
-         <property name="currentText">
-          <string notr="true"/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QComboBox" name="box_grid_type">
-         <property name="currentText">
-          <string notr="true"/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="box_birth_cancer_resistant">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.900000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>color scheme</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="text">
-          <string>Production rate  of resistant cells</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="box_birth_infected">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.200000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="box_death_infected">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>birth resistant</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>death resistant</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="box_death_cancer_resistant">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>grid type</string>
-         </property>
-         <property name="scaledContents">
-          <bool>false</bool>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QDoubleSpinBox" name="box_sq_num_cells">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="decimals">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <double>2000.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>100.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>100.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QDoubleSpinBox" name="box_freq_resistant_cancer">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="decimals">
-          <number>4</number>
-         </property>
-         <property name="maximum">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.000100000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2" colspan="2">
-        <widget class="QPushButton" name="btn_add_virus">
-         <property name="font">
-          <font>
-           <family>Arial Black</family>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Add virus</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QLabel" name="label_30">
       <property name="geometry">
        <rect>
@@ -994,207 +792,303 @@
        <string>Use 3D</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_24">
+      <property name="geometry">
+       <rect>
+        <x>271</x>
+        <y>99</y>
+        <width>70</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>sqrt(#cells)</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>45</x>
+        <y>58</y>
+        <width>88</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>death infected</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="drpdwnbox_display">
+      <property name="geometry">
+       <rect>
+        <x>368</x>
+        <y>56</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="currentText">
+       <string notr="true"/>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="box_grid_type">
+      <property name="geometry">
+       <rect>
+        <x>368</x>
+        <y>15</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="currentText">
+       <string notr="true"/>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_birth_cancer_resistant">
+      <property name="geometry">
+       <rect>
+        <x>166</x>
+        <y>99</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.900000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>271</x>
+        <y>58</y>
+        <width>82</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>color scheme</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>45</x>
+        <y>175</y>
+        <width>113</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Production rate  of resistant cells</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_birth_infected">
+      <property name="geometry">
+       <rect>
+        <x>166</x>
+        <y>19</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>1.200000000000000</double>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_death_infected">
+      <property name="geometry">
+       <rect>
+        <x>166</x>
+        <y>60</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.100000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>45</x>
+        <y>99</y>
+        <width>85</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>birth resistant</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>45</x>
+        <y>135</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>death resistant</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_death_cancer_resistant">
+      <property name="geometry">
+       <rect>
+        <x>166</x>
+        <y>135</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.100000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_23">
+      <property name="geometry">
+       <rect>
+        <x>271</x>
+        <y>17</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>grid type</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_sq_num_cells">
+      <property name="geometry">
+       <rect>
+        <x>371</x>
+        <y>99</y>
+        <width>52</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="decimals">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <double>2000.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>100.000000000000000</double>
+      </property>
+      <property name="value">
+       <double>100.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_add_virus">
+      <property name="geometry">
+       <rect>
+        <x>265</x>
+        <y>173</y>
+        <width>124</width>
+        <height>39</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Add virus</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_freq_resistant_cancer">
+      <property name="geometry">
+       <rect>
+        <x>166</x>
+        <y>180</y>
+        <width>63</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="maximum">
+       <double>1.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.001000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.000100000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>45</x>
+        <y>17</y>
+        <width>82</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>birth infected</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab2">
      <attribute name="title">
       <string>Advanced Settings</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>40</y>
-        <width>191</width>
-        <height>282</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="box_death_cancer">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>Infection_stromal</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>death_cancer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="box_cancer_time">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>5000</number>
-         </property>
-         <property name="value">
-          <number>150</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>virus introduction</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>death_stromal</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="box_birth_cancer">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>cancer introduction</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QSpinBox" name="box_maxtime">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>50000</number>
-         </property>
-         <property name="value">
-          <number>10000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="box_birth_normal">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>birth_cancer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QDoubleSpinBox" name="box_prob_normal_infection">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="decimals">
-          <number>3</number>
-         </property>
-         <property name="maximum">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.010000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>birth_stromal</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QSpinBox" name="box_virus_time">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>5000</number>
-         </property>
-         <property name="value">
-          <number>300</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="box_death_normal">
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.200000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>maximum time</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
@@ -1427,6 +1321,286 @@
        </item>
       </layout>
      </widget>
+     <widget class="QDoubleSpinBox" name="box_death_cancer">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>150</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.100000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>290</y>
+        <width>104</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Infection_stromal</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>150</y>
+        <width>82</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>death_cancer</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_cancer_time">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>220</y>
+        <width>52</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>5000</number>
+      </property>
+      <property name="value">
+       <number>150</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>255</y>
+        <width>106</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>virus introduction</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>80</y>
+        <width>86</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>death_stromal</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_birth_cancer">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>115</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>1.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>220</y>
+        <width>118</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>cancer introduction</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_maxtime">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>185</y>
+        <width>60</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>50000</number>
+      </property>
+      <property name="value">
+       <number>10000</number>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_birth_normal">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>45</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.500000000000000</double>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_virus_time">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>255</y>
+        <width>52</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>5000</number>
+      </property>
+      <property name="value">
+       <number>300</number>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_death_normal">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>80</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="singleStep">
+       <double>0.010000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.200000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>45</y>
+        <width>80</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>birth_stromal</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="box_prob_normal_infection">
+      <property name="geometry">
+       <rect>
+        <x>197</x>
+        <y>290</y>
+        <width>55</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="maximum">
+       <double>1.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.001000000000000</double>
+      </property>
+      <property name="value">
+       <double>0.010000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>115</y>
+        <width>76</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>birth_cancer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>71</x>
+        <y>185</y>
+        <width>89</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>maximum time</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="btn_setup">
@@ -1525,7 +1699,6 @@
    <zorder>btn_stop</zorder>
    <zorder>frame_9</zorder>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>

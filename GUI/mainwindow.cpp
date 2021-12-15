@@ -146,7 +146,7 @@ void MainWindow::display_regular(bool using_3d) {
         }
     }
   } else {
-      double frac = ui->depth_slider->value() / 100.0;
+      double frac = ui->depth_slider->value() / 100.1; // slightly larger than 100, to avoid frac == 1.
       size_t z = static_cast<size_t>(frac * row_size);
 
       for(size_t x = 0; x < row_size; ++x) {
