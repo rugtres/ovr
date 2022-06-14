@@ -19,7 +19,7 @@ Testing is performed using the Catch2 framework, based on the console version. T
 
 Branch|Code Coverage
 ---|---
-master|[![codecov](https://codecov.io/gh/rugtres/ovr/branch/main/graph/badge.svg?token=338KW3H26T)](https://codecov.io/gh/rugtres/ovr)
+master|[![codecov](https://codecov.io/gh/rugtres/ovr/branch/main/graph/badge.svg)](https://codecov.io/gh/rugtres/ovr)
 
 
 
