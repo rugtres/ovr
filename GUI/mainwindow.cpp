@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->line_plot->graph(2)->setName("Infected");
     ui->line_plot->graph(3)->setName("Resistant");
 
-    QCPPlotTitle *fst_title = new QCPPlotTitle(ui->line_plot, "Number of cells");
+    QCPTextElement *fst_title = new QCPTextElement(ui->line_plot, "Number of cells");
     ui->line_plot->plotLayout()->insertRow(0);
     ui->line_plot->plotLayout()->addElement(0, 0, fst_title);
     ui->line_plot->xAxis->setLabel("Time (hours)");
@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->line_plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
 
     ui->line_plot->legend->setRowSpacing(-5);
-    ui->line_plot->setBackground(this->palette().background().color());
+   // ui->line_plot->setBackground(this->palette().background().color());
     ui->line_plot->legend->setBrush(Qt::transparent);
     ui->line_plot->legend->setBorderPen(QPen(Qt::transparent));
 
@@ -91,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
     colorz.push_back(QColor(0, 0, 255));     // normal cells
     colorz.push_back(QColor(255, 0, 0));     // cancer cells
     colorz.push_back(QColor(0, 255, 0));     // infected cells
-    colorz.push_back(QColor(128, 0, 128)); // pink
+    colorz.push_back(QColor(128, 0, 128));   // pink
     colorz.push_back(QColor(0, 0, 0));       // empty cells
 
     ui->progressBar->setStyleSheet("QProgressBar { border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px;  border-top-left-radius: 5px; border: 1px solid black; padding: 1px;background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #fff, stop: 1 #ddd );width: 7px;  } QProgressBar::chunk {background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,stop: 0 #78d,stop: 0.4999 #46a,stop: 0.5 #45a,stop: 1 #238 );border: 1px solid black; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px;  border-top-left-radius: 5px; }");
@@ -102,6 +102,12 @@ MainWindow::MainWindow(QWidget *parent)
     setup_simulation();
 }
 
+QColor get_resistant_color(float resistance) {
+   // size_t r = 255 - static_cast<size_t>((255 - 128) * resistance);
+   // size_t b = static_cast<size_t>(resistance * 128);
+   // return QColor(r, 0, b);
+    return QColor(128, 0, 128);
+}
 
 MainWindow::~MainWindow()
 {
@@ -119,16 +125,6 @@ void MainWindow::set_pixel(int x, int y, const QColor& col) {
     image_.setPixel(x, y, col.rgb());
 }
 
-QColor get_t_cell_color(float concentration) {
-  if(concentration < 1e-5f) {
-      QColor col = {0, 0, 0, 255};
-      return col;
-  }
-
-  QColor col = {255, 0, 255, static_cast<int>(concentration * 255)};
-  return col;
-}
-
 void MainWindow::display_regular(bool using_3d) {
   if (!using_3d) {
     size_t line_size = static_cast<size_t>(row_size);
@@ -142,7 +138,13 @@ void MainWindow::display_regular(bool using_3d) {
 
         for(size_t index = start; index < end; ++index) {
             size_t local_index = index - start;
-            row[local_index] = colorz[ sim->get_cell_type(index) ].rgb();
+            QColor cell_color;
+            if (sim->get_cell_type(index) == resistant) {
+                cell_color = get_resistant_color(sim->get_resistance(index));
+            } else {
+                cell_color = colorz[ sim->get_cell_type(index) ];
+            }
+            row[local_index] = cell_color.rgb();
         }
     }
   } else {
@@ -153,8 +155,13 @@ void MainWindow::display_regular(bool using_3d) {
           QRgb* row = (QRgb*) image_.scanLine(x);
           for(int y = 0; y < row_size; ++y) {
             int index = y + row_size * (x + z * row_size);
-            //  assert(sim->world[index].z_ == z);
-            row[y] = colorz[ sim->get_cell_type(index) ].rgb();
+            QColor cell_color;
+            if (sim->get_cell_type(index) == resistant) {
+                cell_color = get_resistant_color(sim->get_resistance(index));
+            } else {
+                cell_color = colorz[ sim->get_cell_type(index) ];
+            }
+            row[y] = cell_color.rgb();
           }
       }
   }
@@ -167,6 +174,10 @@ void MainWindow::display_voronoi() {
 
   for(size_t i = 0; i < sim->num_cells; ++i) {
       QBrush brush = QBrush(colorz[sim->get_cell_type(i)]); // Qt::SolidPattern by default.
+
+      if (sim->get_cell_type(i) == resistant) {
+          brush = QBrush(get_resistant_color(sim->get_resistance(i)));
+      }
 
       QPainterPath path;
       path.addPolygon(polygons[i]);
@@ -464,6 +475,8 @@ void MainWindow::update_parameters(Param& p) {
 
    p.sq_num_cells = static_cast<size_t>(ui->box_sq_num_cells->value());
 
+   p.resistance_rate = static_cast<float>(ui->box_resistance_rate->value());
+
    p.infection_type = random_infection;
 
    auto infection_string = ui->box_infection_routine->currentText();
@@ -722,16 +735,16 @@ void MainWindow::update_plot(double t,
     y_i.append(cell_numbers[2]);
     y_r.append(cell_numbers[3]);
 
-    ui->line_plot->graph(0)->clearData();
+    ui->line_plot->graph(0)->data()->clear();
     ui->line_plot->graph(0)->setData(x_t, y_n);
 
-    ui->line_plot->graph(1)->clearData();
+    ui->line_plot->graph(1)->data()->clear();
     ui->line_plot->graph(1)->setData(x_t, y_c);
 
-    ui->line_plot->graph(2)->clearData();
+    ui->line_plot->graph(2)->data()->clear();
     ui->line_plot->graph(2)->setData(x_t, y_i);
 
-    ui->line_plot->graph(3)->clearData();
+    ui->line_plot->graph(3)->data()->clear();
     ui->line_plot->graph(3)->setData(x_t, y_r);
 
 

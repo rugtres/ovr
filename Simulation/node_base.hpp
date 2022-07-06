@@ -9,7 +9,7 @@ enum cell_type {normal, cancer, infected, resistant, empty, max_num};
 struct node_base {
 private:
     cell_type node_type;
-
+    float prob_resistant_infected;
 public:
 
   size_t pos;
@@ -19,6 +19,7 @@ public:
   size_t check_identifier;
   float inv_num_neighbors;
   float prob_normal_infected;
+
 
   std::vector< node_base* > neighbors;
 
@@ -34,6 +35,7 @@ public:
     y_ = 0;
     inv_num_neighbors = 0.f;
     prob_normal_infected = 0.f;
+    prob_resistant_infected = 0.f;
     check_identifier = 0;
   }
 
@@ -68,6 +70,9 @@ public:
     if(node_type == cancer) {
       // infected nodes can grow into this
       prob_of_growth[infected]  = freq_type_neighbours(infected);
+    }
+    if (node_type == resistant) {
+      prob_of_growth[infected]  = (1.0f - prob_resistant_infected) * freq_type_neighbours(infected);
     }
     if(node_type == empty) {
       prob_of_growth[normal]    = freq_type_neighbours(normal);
@@ -110,6 +115,14 @@ public:
 
   void set_identifier(size_t id) {
     check_identifier = id;
+  }
+
+  void set_resistance(float r) {
+      prob_resistant_infected = r;
+  }
+
+  float get_resistance() {
+      return prob_resistant_infected;
   }
 };
 

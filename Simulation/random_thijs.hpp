@@ -38,6 +38,13 @@ struct rnd_t {
     if (lambda == 0.f) return 1e20f;
     return std::exponential_distribution<float>(lambda)(rndgen_);
   }
+
+  float pos_norm(float m, float s) {
+      auto norm_dist = std::normal_distribution<float>(m, s);
+      float answer = norm_dist(rndgen_);
+      while(answer < 0.0) answer = norm_dist(rndgen_);
+      return answer;
+  }
 };
 
 struct binned_distribution {

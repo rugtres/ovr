@@ -32,6 +32,7 @@ struct Param {
   float death_cancer_resistant;
   float freq_resistant;
 
+  float resistance_rate;
 
   int time_adding_virus;
   int time_adding_virus_2;
@@ -83,6 +84,8 @@ struct Param {
     death_normal = 0.2f;
     death_cancer = 0.1f;
     death_infected = 0.1f;
+
+    float resistance_rate = 0.f;
 
     death_cancer_resistant = 0.1f;
     birth_cancer_resistant = 0.9f;

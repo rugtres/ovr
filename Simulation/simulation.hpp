@@ -35,6 +35,7 @@ public:
   virtual void update_one_step() = 0;
 
   virtual cell_type get_cell_type(size_t) = 0;
+  virtual float get_resistance(size_t) = 0;
   virtual std::array<size_t, 5> get_count_cell_types() const = 0;
   virtual void initialize_network(std::vector< std::vector< voronoi_point > >& all_polys,
                                   grid_type used_grid_type) = 0;
@@ -187,6 +188,10 @@ public:
 
   cell_type get_cell_type(size_t pos) override {
     return world[pos].get_cell_type();
+  }
+
+  float get_resistance(size_t pos) override {
+      return world[pos].get_resistance();
   }
 
   void update_growth_prob(size_t pos) {
@@ -513,6 +518,7 @@ public:
 
     for(auto& i : world) {
         i.prob_normal_infected = parameters.prob_normal_infection;
+        i.set_resistance(parameters.resistance_rate);
       }
 
     if(parameters.use_voronoi_grid == false) {
@@ -651,8 +657,14 @@ private:
     if(parent == cancer) {
         if(rndgen.uniform() < parameters.freq_resistant) {
             new_type = resistant;
-          }
-      }
+            world[position_of_grown_cell].set_resistance(parameters.resistance_rate);
+        }
+    }
+   /* if (parent == resistant) {
+        float r = world[parent].get_resistance();
+        r = rndgen.pos_norm(r, 0.05);
+        world[position_of_grown_cell].set_resistance(r);
+    }*/
 
     change_cell_type(position_of_grown_cell, new_type);
   }
