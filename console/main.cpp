@@ -21,9 +21,17 @@ int main(int argc, char *argv[]) {
 
   std::string file_name = "config.ini";
 
-  Param all_parameters;
+  InputParser input(argc, argv);
+  const std::string &filename = input.getCmdOption("-f");
+    if (!filename.empty()){
+            file_name = filename;
+    }
 
-  read_parameters_from_ini(all_parameters, file_name);
+    Param all_parameters;
+
+    read_parameters_from_ini(all_parameters, file_name);
+
+    read_from_command_line(input, all_parameters);
 
   float max_t = 0;
   std::array<size_t, 5> cell_counts = do_analysis(all_parameters, max_t);
@@ -97,6 +105,8 @@ void read_parameters_from_ini(Param& p, const std::string file_name) {
   p.prob_infection_upon_death = from_config.getValueOfKey<float>("prob_infection_upon_death");
 
   p.sq_num_cells = from_config.getValueOfKey<size_t>("sq_num_cells");
+
+  p.resistance_rate = from_config.getValueOfKey<float>("resistance_level");
 
   p.using_3d = from_config.getValueOfKey<bool>("using_3d");
 
