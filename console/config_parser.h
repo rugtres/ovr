@@ -59,6 +59,12 @@ void read_from_command_line(const InputParser& input,
     parse_param(input, "-vd", params.death_infected);
     parse_param(input, "-rb", params.birth_cancer_resistant);
     parse_param(input, "-rd", params.death_cancer_resistant);
+
+    parse_param(input, "-sb", params.birth_normal);
+    parse_param(input, "-sd", params.death_normal);
+    parse_param(input, "-cb", params.birth_cancer);
+    parse_param(input, "-cd", params.death_cancer);
+
     parse_param(input, "-rr", params.resistance_rate);
 
     // parse_param is only for floats.
