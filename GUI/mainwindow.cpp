@@ -1022,3 +1022,9 @@ void MainWindow::on_box_start_setup_activated(int index)
     is_paused = true;
     setup_simulation();
 }
+
+void MainWindow::on_btn_record_clicked()
+{
+    sim->record_to_file();
+}
+

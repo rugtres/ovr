@@ -85,7 +85,7 @@ struct Param {
     death_cancer = 0.1f;
     death_infected = 0.1f;
 
-    float resistance_rate = 0.f;
+    resistance_rate = 0.f;
 
     death_cancer_resistant = 0.1f;
     birth_cancer_resistant = 0.9f;

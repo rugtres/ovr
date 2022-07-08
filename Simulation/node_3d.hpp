@@ -52,6 +52,10 @@ struct node_3d : public node_base {
     x_ = pos2 / row_size;
     y_ = pos2 % row_size;
   }
+
+  std::vector<float> return_coordinates() const {
+      return std::vector<float>{x_, y_, z_};
+  }
 };
 
 

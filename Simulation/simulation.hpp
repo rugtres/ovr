@@ -55,6 +55,8 @@ public:
   virtual void add_cells(const cell_type& focal_cell_type) = 0;
 
   virtual void obtain_equilibrium(bool verbose) = 0;
+
+  virtual void record_to_file() = 0;
 };
 
 
@@ -361,6 +363,22 @@ public:
   void set_start_setup(start_type new_type) override {
     parameters.start_setup = new_type;
   }
+
+  void record_to_file() override {
+      std::string file_name = "record.txt";
+      std::ofstream out(file_name.c_str(), std::ios::app);
+      for (const auto& i : world) {
+          auto coords = i.return_coordinates();
+          out << t << "\t";
+          for (const auto& j : coords) {
+              out << j << "\t";
+          }
+          out << i.get_cell_type() << "\n";
+      }
+      out.close();
+      return;
+  }
+
 
   // size_t find_center(const cell_type& focal_cell_type) const;
   size_t find_central_cell(const cell_type& focal_cell_type) const {

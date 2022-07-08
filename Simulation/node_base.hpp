@@ -40,6 +40,7 @@ public:
   }
 
   void set_coordinates(size_t row_size);
+  void return_coordinates();
 
   void update_neighbors(std::vector< node_base >& world,
                         size_t world_size);
