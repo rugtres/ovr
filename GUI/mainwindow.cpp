@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->box_grid_type->addItem("voronoi");
     ui->box_grid_type->addItem("regular");
     ui->box_grid_type->addItem("hexagonal");
+    ui->box_grid_type->addItem("regular_borders");
 
     is_paused = false;
     is_running = false;
@@ -425,7 +426,8 @@ void MainWindow::update_image(const std::array< binned_distribution, 4 >& growth
       }
     }
 
-    if(grid_type == grid_type::voronoi || grid_type == grid_type::hexagonal) {
+    if(grid_type == grid_type::voronoi || grid_type == grid_type::hexagonal || grid_type == grid_type::regular_borders) {
+
         if(focal_display_type != dominant_rate) {
           display_voronoi(growth_rate[focal_cell_type], focal_cell_type);
         } else {
@@ -526,6 +528,11 @@ void MainWindow::update_parameters(Param& p) {
 
    if (grid_string == "hexagonal") {
        grid_type = grid_type::hexagonal; // plotting flag
+       p.use_voronoi_grid = true; // simulation flag
+   }
+
+   if (grid_string == "regular_borders") {
+       grid_type = grid_type::regular_borders; // plotting flag
        p.use_voronoi_grid = true; // simulation flag
    }
 

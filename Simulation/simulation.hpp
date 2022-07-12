@@ -1052,10 +1052,17 @@ private:
             x = i % sq_size;
             y = i / sq_size;
             if ((i / sq_size) % 2 == 0) x += 0.5f;
-          } else {
+        }
+
+        if (used_grid_type == grid_type::voronoi) {
             x = rndgen.uniform() * sq_size;
             y = rndgen.uniform() * sq_size;
-          }
+        }
+
+        if (used_grid_type == grid_type::regular_borders) {
+            x = i % sq_size;
+            y = i / sq_size;
+        }
 
         v[i] = voronoi_point(x, y);
       }

@@ -107,7 +107,7 @@
      </font>
     </property>
     <property name="text">
-     <string>v0.8.2</string>
+     <string>v0.8.3</string>
     </property>
     <property name="scaledContents">
      <bool>false</bool>
@@ -119,7 +119,7 @@
    <widget class="QLabel" name="label_29">
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>420</x>
       <y>740</y>
       <width>211</width>
       <height>31</height>
@@ -132,7 +132,7 @@
      </font>
     </property>
     <property name="text">
-     <string>(c) 2021 T. Janzen &amp; D. Bhatt</string>
+     <string>(c) 2022 T. Janzen &amp; D. Bhatt</string>
     </property>
     <property name="scaledContents">
      <bool>false</bool>
@@ -599,7 +599,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -1629,7 +1629,7 @@
        <string>maximum time</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>40</x>
