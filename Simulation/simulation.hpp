@@ -364,8 +364,30 @@ public:
     parameters.start_setup = new_type;
   }
 
+  inline bool file_exists (const std::string& name) {
+      std::ifstream f(name.c_str());
+      return f.good();
+  }
+
   void record_to_file() override {
       std::string file_name = "record.txt";
+
+      if (!file_exists(file_name)) {
+          // write header.
+          std::ofstream out(file_name.c_str());
+          out << "t" << "\t";
+          auto temp = world[0].return_coordinates();
+          if (temp.size() == 2) {
+              out << "x" << "\t" << "y" << "\t";
+          }
+          if (temp.size() == 3) {
+               out << "x" << "\t" << "y" << "\t" << "z" "\t";
+          }
+          out << "cell_type" << "\n";
+          out.close();
+      }
+
+
       std::ofstream out(file_name.c_str(), std::ios::app);
       for (const auto& i : world) {
           auto coords = i.return_coordinates();
